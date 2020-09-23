@@ -29,6 +29,11 @@ namespace RMATracker.Controllers
             return View();
         }
 
+        public IActionResult Inventory()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

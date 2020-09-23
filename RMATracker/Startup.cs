@@ -1,8 +1,12 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using RMATracker.Data;
+using RMATracker.Interfaces;
+using RMATracker.Repositories;
 
 namespace RMATracker
 {
@@ -19,6 +23,11 @@ namespace RMATracker
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddDbContext<RMATrackerContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("RMATrackerContext")));
+
+            services.AddScoped<IRMARepository, RMARepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
