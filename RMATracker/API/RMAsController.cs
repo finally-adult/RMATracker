@@ -12,7 +12,5 @@ namespace RMATracker.API
         {
             this.repository = repository;
         }
-
-
     }
 }

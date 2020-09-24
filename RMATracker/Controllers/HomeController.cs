@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RMATracker.Interfaces;
 using RMATracker.Models;
+using RMATracker.ViewModels;
 using System.Diagnostics;
 
 namespace RMATracker.Controllers
@@ -8,10 +10,12 @@ namespace RMATracker.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IRMATrackerRepository repository;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IRMATrackerRepository repository)
         {
             _logger = logger;
+            this.repository = repository;
         }
 
         public IActionResult Index()
@@ -21,7 +25,11 @@ namespace RMATracker.Controllers
 
         public IActionResult Active()
         {
-            return View();
+            var model = new RMAViewModel();
+            model.RMAs = repository.GetAllRMAs();
+            model.Parts = repository.GetAllParts();
+            model.SerialNumbers = repository.GetAllSerialNumbers();
+            return View(model);
         }
 
         public IActionResult Historical()
@@ -31,10 +39,41 @@ namespace RMATracker.Controllers
 
         public IActionResult Inventory()
         {
-            return View();
+            var model = repository.GetAllParts();
+            return View(model);
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+        public IActionResult AddRMA()
+        {
+            return View();
+        }
+
+        public IActionResult UpdateRMA()
+        {
+            return View();
+        }
+
+        public IActionResult AddPart()
+        {
+            return View();
+        }
+
+        public IActionResult UpdatePart()
+        {
+            return View();
+        }
+
+        public IActionResult AddSerialNumber()
+        {
+            return View();
+        }
+
+        public IActionResult UpdateSerialNumber()
         {
             return View();
         }
