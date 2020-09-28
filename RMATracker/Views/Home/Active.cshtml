@@ -1,4 +1,4 @@
-﻿@model RMAViewModel
+﻿@model IEnumerable<RMA>
 
 @{
     ViewData["Title"] = "Active RMAs";
@@ -14,7 +14,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var RMA in Model.RMAs)
+        @foreach (var RMA in Model)
         {
             <tr>
                 <td>@RMA.Id</td>
@@ -23,8 +23,3 @@
         }
     </tbody>
 </table>
-
-@foreach (var part in Model.Parts)
-{
-    @part.Quantity();
-}

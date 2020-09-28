@@ -11,7 +11,6 @@ namespace RMATracker.Models
         }
         [Key]
         public int Id { get; set; }
-        public int RMAId { get; set; }
         public string PartNumber { get; set; }
         public string Description { get; set; }
         public List<SerialNumber> SerialNumbers { get; set; }

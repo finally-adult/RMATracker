@@ -6,10 +6,10 @@ namespace RMATracker.Models
     {
         public RMA()
         {
-            Parts = new List<Part>();
+            SerialNumbers = new List<SerialNumber>();
         }
         public int Id { get; set; }
         public string RMANumber { get; set; }
-        public List<Part> Parts { get; set; }
+        public List<SerialNumber> SerialNumbers { get; set; }
     }
 }

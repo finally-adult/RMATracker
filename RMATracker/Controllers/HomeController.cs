@@ -2,7 +2,6 @@
 using Microsoft.Extensions.Logging;
 using RMATracker.Interfaces;
 using RMATracker.Models;
-using RMATracker.ViewModels;
 using System.Diagnostics;
 
 namespace RMATracker.Controllers
@@ -25,10 +24,8 @@ namespace RMATracker.Controllers
 
         public IActionResult Active()
         {
-            var model = new RMAViewModel();
-            model.RMAs = repository.GetAllRMAs();
-            model.Parts = repository.GetAllParts();
-            model.SerialNumbers = repository.GetAllSerialNumbers();
+            // this will become an AJAX call from the JS to load child rows
+            var model = repository.GetAllRMAs();
             return View(model);
         }
 
@@ -39,8 +36,7 @@ namespace RMATracker.Controllers
 
         public IActionResult Inventory()
         {
-            var model = repository.GetAllParts();
-            return View(model);
+            return View();
         }
 
         public IActionResult Privacy()

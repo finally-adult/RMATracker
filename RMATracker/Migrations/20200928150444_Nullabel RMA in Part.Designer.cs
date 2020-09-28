@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RMATracker.Data;
 
 namespace RMATracker.Migrations
 {
     [DbContext(typeof(RMATrackerContext))]
-    partial class RMATrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20200928150444_Nullabel RMA in Part")]
+    partial class NullabelRMAinPart
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -32,7 +34,12 @@ namespace RMATracker.Migrations
                     b.Property<string>("PartNumber")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RMAId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("RMAId");
 
                     b.ToTable("Parts");
                 });
@@ -62,9 +69,6 @@ namespace RMATracker.Migrations
                     b.Property<int>("PartId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("RMAId")
-                        .HasColumnType("int");
-
                     b.Property<string>("Serial")
                         .HasColumnType("nvarchar(max)");
 
@@ -72,9 +76,14 @@ namespace RMATracker.Migrations
 
                     b.HasIndex("PartId");
 
-                    b.HasIndex("RMAId");
-
                     b.ToTable("SerialNumbers");
+                });
+
+            modelBuilder.Entity("RMATracker.Models.Part", b =>
+                {
+                    b.HasOne("RMATracker.Models.RMA", null)
+                        .WithMany("Parts")
+                        .HasForeignKey("RMAId");
                 });
 
             modelBuilder.Entity("RMATracker.Models.SerialNumber", b =>
@@ -84,10 +93,6 @@ namespace RMATracker.Migrations
                         .HasForeignKey("PartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("RMATracker.Models.RMA", null)
-                        .WithMany("SerialNumbers")
-                        .HasForeignKey("RMAId");
                 });
 #pragma warning restore 612, 618
         }

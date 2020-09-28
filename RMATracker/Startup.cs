@@ -27,7 +27,7 @@ namespace RMATracker
             services.AddDbContext<RMATrackerContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("RMATrackerContext")));
 
-            services.AddScoped<IRMARepository, RMARepository>();
+            services.AddScoped<IRMATrackerRepository, RMATrackerRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

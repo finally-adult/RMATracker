@@ -1,5 +1,81 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
+﻿@{
+    ViewData["Title"] = "Inventory";
+}
+
+<h2 class="text-center">Inventory</h2>
+
+<table id="inventoryTable" class="table">
+    <thead>
+        <tr>
+            <th></th>
+            <th>Part Number</th>
+            <th>Part Description</th>
+        </tr>
+    </thead>
+</table>
+
+
+@section Scripts{
+    <script>
+        function format(d) {
+            var body = "";
+            $.each(d.serialNumbers, function (index, value) {
+                body += '<tr><td>' +
+                    value.serial +
+                    '</td></tr>';
+            });
+            return '<table class="table" id="invTableChild" name="invTableChild">' +
+                '<thead>' +
+                '<tr>' +
+                '<th>Serial Number</th>' +
+                '</tr>' +
+                '</thead>' +
+                '<tbody>' +
+                body +
+                '</tbody>' +
+                '</table>';
+        }
+
+        $(document).ready(function () {
+            var table = $('#inventoryTable').DataTable({
+                ajax: {
+                    type: "GET",
+                    url: "/api/rmas/getallparts",
+                    dataSrc: "",
+                    contentType: "application/json",
+                    dataType: "json"
+                },
+                columns: [
+                    {
+                        className: 'details-control',
+                        orderable: false,
+                        data: null,
+                        defaultContent: ''
+                    },
+                    { data: "partNumber" },
+                    { data: "description" }
+                ],
+                order: [[1, 'asc']]
+            });
+
+            //var tr = $("#inventoryTable").closest('tr');
+            //var row = table.row(tr);
+
+            $('#inventoryTable tbody').on('click', 'td.details-control', function () {
+                var tr = $(this).closest('tr');
+                var row = table.row(tr);
+
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    row.child(format(row.data())).show();
+                    tr.addClass('shown');
+                }
+            });
+        });
+    </script>
 }
