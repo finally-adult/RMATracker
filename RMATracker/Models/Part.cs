@@ -5,6 +5,7 @@ namespace RMATracker.Models
 {
     public class Part
     {
+        // add functionality to check out into field
         public Part()
         {
             SerialNumbers = new List<SerialNumber>();

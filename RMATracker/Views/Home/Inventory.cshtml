@@ -14,6 +14,8 @@
             <th></th>
             <th>Part Number</th>
             <th>Part Description</th>
+            <th>Quantity on hand</th>
+            <th>Quantity out for Repair</th>
             <th></th>
         </tr>
     </thead>
@@ -125,7 +127,9 @@
                     },
                     { data: "partNumber" },
                     { data: "description" },
-                    {data: null}
+                    { data: null },
+                    { data: null },
+                    { data: null }
                 ],
                 columnDefs: [{
                     targets: -1,
@@ -154,7 +158,7 @@
             });
 
             $('#addSerialNumberModal').on('shown.bs.modal', function () {
-                $('#partSelect option[value=' + partId + ']').attr('selected', 'selected');
+                $('#partSelect').val(partId);
             });
         });
     </script>
