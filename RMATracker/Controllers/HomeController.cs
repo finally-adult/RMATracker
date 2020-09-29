@@ -31,12 +31,12 @@ namespace RMATracker.Controllers
 
         public IActionResult Historical()
         {
-            // AJAX Call
             return View();
         }
 
         public IActionResult Inventory()
         {
+            ViewBag.PartId = new SelectList(repository.GetAllParts(), "Id", "Description");
             return View();
         }
 
@@ -70,11 +70,6 @@ namespace RMATracker.Controllers
             return RedirectToAction("Active");
         }
 
-        public IActionResult AddPart()
-        {
-            return View();
-        }
-
         [HttpPost]
         public IActionResult AddPart(Part part)
         {
@@ -92,12 +87,6 @@ namespace RMATracker.Controllers
         public IActionResult UpdatePart(Part part)
         {
             return RedirectToAction("Inventory");
-        }
-
-        public IActionResult AddSerialNumber()
-        {
-            ViewBag.PartId = new SelectList(repository.GetAllParts(), "Id", "Description");
-            return View();
         }
 
         [HttpPost]
