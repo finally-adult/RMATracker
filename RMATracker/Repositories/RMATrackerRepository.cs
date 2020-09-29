@@ -15,6 +15,21 @@ namespace RMATracker.Repositories
             this.db = db;
         }
 
+        public void Commit()
+        {
+            db.SaveChanges();
+        }
+
+        public void AddRMA(RMA rma)
+        {
+            db.Add(rma);
+        }
+
+        public void AddPart(Part part)
+        {
+            db.Add(part);
+        }
+
         public IEnumerable<Part> GetAllParts()
         {
             return db.Parts.Include(part => part.SerialNumbers).ToList();
@@ -28,6 +43,11 @@ namespace RMATracker.Repositories
         public IEnumerable<SerialNumber> GetAllSerialNumbers()
         {
             return db.SerialNumbers.ToList();
+        }
+
+        public void AddSerialNumber(SerialNumber serialNumber)
+        {
+            db.Add(serialNumber);
         }
     }
 }

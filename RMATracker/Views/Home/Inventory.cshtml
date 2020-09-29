@@ -54,12 +54,8 @@
                     },
                     { data: "partNumber" },
                     { data: "description" }
-                ],
-                order: [[1, 'asc']]
+                ]
             });
-
-            //var tr = $("#inventoryTable").closest('tr');
-            //var row = table.row(tr);
 
             $('#inventoryTable tbody').on('click', 'td.details-control', function () {
                 var tr = $(this).closest('tr');
