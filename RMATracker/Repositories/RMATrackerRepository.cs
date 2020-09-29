@@ -32,7 +32,9 @@ namespace RMATracker.Repositories
 
         public IEnumerable<Part> GetAllParts()
         {
-            return db.Parts.Include(part => part.SerialNumbers).ToList();
+            return db.Parts
+                .Include(part => part.SerialNumbers)
+                .ToList();
         }
 
         public IEnumerable<RMA> GetAllRMAs()

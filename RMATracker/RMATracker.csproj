@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200929222350_include RMA in serial number.cs" />
+    <Compile Remove="Migrations\20200929222350_include RMA in serial number.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="wwwroot\details_close.png" />
     <Content Remove="wwwroot\details_open.png" />
   </ItemGroup>

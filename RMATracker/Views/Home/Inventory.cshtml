@@ -14,8 +14,8 @@
             <th></th>
             <th>Part Number</th>
             <th>Part Description</th>
-            <th>Quantity on hand</th>
-            <th>Quantity out for Repair</th>
+            <th>Quantity</th>
+            <th>Out for repair</th>
             <th></th>
         </tr>
     </thead>
@@ -91,12 +91,15 @@
             $.each(d.serialNumbers, function (index, value) {
                 body += '<tr><td>' +
                     value.serial +
+                    '</td><td>' +
+                    value.rmaId +
                     '</td></tr>';
             });
             return '<table class="table" id="invTableChild" name="invTableChild">' +
                 '<thead>' +
                 '<tr>' +
                 '<th>Serial Number</th>' +
+                '<th>RMA ID</th>' +
                 '</tr>' +
                 '</thead>' +
                 '<tbody>' +
@@ -127,7 +130,7 @@
                     },
                     { data: "partNumber" },
                     { data: "description" },
-                    { data: null },
+                    { data: "serialNumbers.length" },
                     { data: null },
                     { data: null }
                 ],
@@ -135,11 +138,13 @@
                     targets: -1,
                     createdCell: function (td, cellData, rowData, row, col) {
                         $(td).html('<button class="btn btn-primary" data-toggle="modal" data-target="\#addSerialNumberModal" onclick="javascript:setVal(' + rowData.id + ')">Add Serial Number<\/button>');
+                    },
+                    targets: 4,
+                    createdCell: function (td, cellData, rowData, row, col) {
+                        $(td).html(rowData.serialNumbers.filter(s => s.rmaId !== null).length);
                     }
                 }],
             });
-
-            // '<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addSerialNumberModal">Add Serial Number<\/button>'
 
             $('#inventoryTable tbody').on('click', 'td.details-control', function () {
                 var tr = $(this).closest('tr');
