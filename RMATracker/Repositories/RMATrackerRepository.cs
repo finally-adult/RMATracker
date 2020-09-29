@@ -51,5 +51,10 @@ namespace RMATracker.Repositories
         {
             db.Add(serialNumber);
         }
+
+        public RMA GetRMA(int id)
+        {
+            return db.RMAs.Find(id);
+        }
     }
 }

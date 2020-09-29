@@ -89,17 +89,18 @@
         function format(d) {
             var body = "";
             $.each(d.serialNumbers, function (index, value) {
+                var rmaNumber = getRMA(value.rmaId);
                 body += '<tr><td>' +
                     value.serial +
                     '</td><td>' +
-                    value.rmaId +
+                    rmaNumber +
                     '</td></tr>';
             });
             return '<table class="table" id="invTableChild" name="invTableChild">' +
                 '<thead>' +
                 '<tr>' +
                 '<th>Serial Number</th>' +
-                '<th>RMA ID</th>' +
+                '<th>RMA</th>' +
                 '</tr>' +
                 '</thead>' +
                 '<tbody>' +
@@ -110,6 +111,21 @@
 
         function setVal(value) {
             partId = value;
+        }
+
+        function getRMA(id) {
+            var rma = '';
+            if (id !== null) {
+                $.ajax({
+                    type: "GET",
+                    url: "/api/rmas/getrma/" + id,
+                    async: false,
+                    success: function (response) {
+                        rma = response.rmaNumber;
+                    },
+                });
+            }
+            return rma;
         }
 
         $(document).ready(function () {
@@ -132,18 +148,22 @@
                     { data: "description" },
                     { data: "serialNumbers.length" },
                     { data: null },
-                    { data: null }
+                    { data: null, orderable: false }
                 ],
-                columnDefs: [{
-                    targets: -1,
-                    createdCell: function (td, cellData, rowData, row, col) {
-                        $(td).html('<button class="btn btn-primary" data-toggle="modal" data-target="\#addSerialNumberModal" onclick="javascript:setVal(' + rowData.id + ')">Add Serial Number<\/button>');
+                columnDefs: [
+                    {
+                        targets: -1,
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            $(td).html('<button class="btn btn-primary" data-toggle="modal" data-target="\#addSerialNumberModal" onclick="javascript:setVal(' + rowData.id + ')">Add Serial Number<\/button>');
+                        }
                     },
-                    targets: 4,
-                    createdCell: function (td, cellData, rowData, row, col) {
-                        $(td).html(rowData.serialNumbers.filter(s => s.rmaId !== null).length);
+                    {
+                        targets: 4,
+                        createdCell: function (td, cellData, rowData, row, col) {
+                            $(td).html(rowData.serialNumbers.filter(s => s.rmaId !== null).length);
+                        }
                     }
-                }],
+                ],
             });
 
             $('#inventoryTable tbody').on('click', 'td.details-control', function () {

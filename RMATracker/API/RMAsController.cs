@@ -25,5 +25,11 @@ namespace RMATracker.API
         {
             return repository.GetAllParts();
         }
+
+        [HttpGet("{id}")]
+        public RMA GetRMA(int id)
+        {
+            return repository.GetRMA(id);
+        }
     }
 }

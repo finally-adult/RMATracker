@@ -7,6 +7,10 @@
   <ItemGroup>
     <Compile Remove="Migrations\20200929222350_include RMA in serial number.cs" />
     <Compile Remove="Migrations\20200929222350_include RMA in serial number.Designer.cs" />
+    <Compile Remove="Migrations\20200929224650_change RMA relationship.cs" />
+    <Compile Remove="Migrations\20200929224650_change RMA relationship.Designer.cs" />
+    <Compile Remove="Migrations\20200929224856_change RMA relationship.cs" />
+    <Compile Remove="Migrations\20200929224856_change RMA relationship.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

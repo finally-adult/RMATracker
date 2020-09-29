@@ -12,5 +12,6 @@ namespace RMATracker.Interfaces
         public void AddPart(Part part);
         public void Commit();
         public void AddSerialNumber(SerialNumber serialNumber);
+        RMA GetRMA(int id);
     }
 }
