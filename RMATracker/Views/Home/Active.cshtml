@@ -11,11 +11,23 @@
 <table id="RMAtable" class="table">
     <thead>
         <tr>
-            <th></th>
             <th>RMA Number</th>
             <th>Date Sent</th>
+            <th>Serial Number</th>
+            <th>Days Out</th>
         </tr>
     </thead>
+    <tbody>
+        @foreach (var rma in Model.RMAs)
+        {
+            <tr>
+                <td>@rma.RMANumber</td>
+                <td>@rma.DateSent.ToString("MM/dd/yyyy")</td>
+                <td>@rma.SerialNumber.Serial</td>
+                <td>@rma.DaysOut()</td>
+            </tr>
+        }
+    </tbody>
 </table>
 
 <div class="modal fade" id="addRMAModal" tabindex="-1" role="dialog" aria-labelledby="addRMAModal" aria-hidden="true">
@@ -31,13 +43,18 @@
                 <form asp-action="AddRMA">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="RMA.RMANumber" class="control-label"></label>
-                        <input asp-for="RMA.RMANumber" class="form-control" />
+                        <label asp-for="@Model.RMA.RMANumber" class="control-label"></label>
+                        <input asp-for="@Model.RMA.RMANumber" class="form-control" />
                         <span asp-validation-for="RMA.RMANumber" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <select id="partSelect" asp-items="@Model.Parts" class="selectpicker form-control w-100" data-live-search="true">
                             <option value="0">Select Part</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select id="serialNumberSelect" asp-for="@Model.SerialId" class="selectpicker form-control w-100" data-live-search="true">
+                            <option value="0">Select Serial Number</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -51,49 +68,28 @@
 
 @section Scripts{
     <script>
-        function format(d) {
-            return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; id="RMATableChild" name="RMATableChild">' +
-                '<tr>' +
-                '<td>Serial Number:</td>' +
-                '<td>' + d.serialNumber.serial + '</td>' +
-                '</tr>' +
-                '</table>';
-        }
-
         $(document).ready(function () {
-            var table = $("#RMAtable").DataTable({
-                ajax: {
-                    type: "GET",
-                    url: "/api/rmas/getallrmas",
-                    dataSrc: "",
-                    contentType: "application/json",
-                    dataType: "json"
-                },
-                columns: [
-                    {
-                        className: 'details-control',
-                        orderable: false,
-                        data: null,
-                        defaultContent: ''
-                    },
-                    { data: "rmaNumber" },
-                    { data: "dateSent" }
-                ]
-            });
+            $("#RMAtable").DataTable();
+        });
 
-            $('#RMAtable tbody').on('click', 'td.details-control', function () {
-                var tr = $(this).closest('tr');
-                var row = table.row(tr);
-
-                if (row.child.isShown()) {
-                    // This row is already open - close it
-                    row.child.hide();
-                    tr.removeClass('shown');
-                }
-                else {
-                    // Open this row
-                    row.child(format(row.data())).show();
-                    tr.addClass('shown');
+        $("#partSelect").change(function () {
+            var selectedPart = $("#partSelect").val();
+            var serialSelect = $("#serialNumberSelect");
+            serialSelect.empty();
+            console.log(selectedPart);
+            $.ajax({
+                type: "GET",
+                url: "/api/rmas/getserialnumbers/" + selectedPart,
+                contentType: "json; charset=utf-8",
+                success: function (serialNumbers) {
+                    serialSelect.append(new Option("Select Serial Number", 0, true, true));
+                    $.each(serialNumbers, function (index, serialNumber) {
+                        serialSelect.append(new Option(serialNumber.serial, serialNumber.id, true, true));
+                        console.log(serialNumber.id);
+                        console.log(serialNumber.serial);
+                    });
+                    serialSelect.selectpicker('refresh');
+                    serialSelect.select(0);
                 }
             });
         });

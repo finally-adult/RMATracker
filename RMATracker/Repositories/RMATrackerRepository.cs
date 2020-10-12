@@ -56,5 +56,16 @@ namespace RMATracker.Repositories
         {
             return db.RMAs.Find(id);
         }
+
+        public void UpdateSerialNumber(SerialNumber serialNumber)
+        {
+            var entity = db.SerialNumbers.Attach(serialNumber);
+            entity.State = EntityState.Modified;
+        }
+
+        public SerialNumber GetSerialNumberById(int id)
+        {
+            return db.SerialNumbers.Find(id);
+        }
     }
 }

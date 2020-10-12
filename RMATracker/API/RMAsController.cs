@@ -2,6 +2,7 @@
 using RMATracker.Interfaces;
 using RMATracker.Models;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RMATracker.API
 {
@@ -30,6 +31,12 @@ namespace RMATracker.API
         public RMA GetRMA(int id)
         {
             return repository.GetRMA(id);
+        }
+
+        [HttpGet("{id}")]
+        public IEnumerable<SerialNumber> GetSerialNumbers(int id)
+        {
+            return repository.GetAllSerialNumbers().Where(s => s.PartId == id);
         }
     }
 }

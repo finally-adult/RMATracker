@@ -28,6 +28,7 @@ namespace RMATracker.Controllers
         public IActionResult Active()
         {
             var model = new ActiveViewModel();
+            model.RMAs = repository.GetAllRMAs();
             model.Parts = new SelectList(repository.GetAllParts(), "Id", "Description");
             return View(model);
         }
@@ -49,10 +50,14 @@ namespace RMATracker.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddRMA(RMA rma)
+        public IActionResult AddRMA(ActiveViewModel data)
         {
+            var rma = data.RMA;
             rma.DateSent = DateTime.Now;
+            var serialNumber = repository.GetSerialNumberById(data.SerialId);
             repository.AddRMA(rma);
+            repository.Commit();
+            serialNumber.RMAId = rma.Id;
             repository.Commit();
             return RedirectToAction("Active");
         }
