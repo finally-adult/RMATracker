@@ -1,10 +1,12 @@
-﻿@{
+﻿@model ActiveViewModel
+
+@{
     ViewData["Title"] = "Active RMAs";
 }
 
 <h2 class="text-center">Active RMAs</h2>
 
-<a asp-action="AddRMA"><input type="button" class="btn btn-primary" value="Add RMA" /></a>
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addRMAModal">Add RMA</button>
 
 <table id="RMAtable" class="table">
     <thead>
@@ -16,25 +18,45 @@
     </thead>
 </table>
 
+<div class="modal fade" id="addRMAModal" tabindex="-1" role="dialog" aria-labelledby="addRMAModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addRMAModalLongTitle">Add RMA</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="AddRMA">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="RMA.RMANumber" class="control-label"></label>
+                        <input asp-for="RMA.RMANumber" class="form-control" />
+                        <span asp-validation-for="RMA.RMANumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <select id="partSelect" asp-items="@Model.Parts" class="selectpicker form-control w-100" data-live-search="true">
+                            <option value="0">Select Part</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts{
     <script>
         function format(d) {
-            var body = "";
-            $.each(d.serialNumbers, function (index, value) {
-                body += '<tr><td>' +
-                    value.serial +
-                    '</td></tr>';
-            });
-            return '<table class="table" id="RMATableChild" name="RMATableChild">' +
-                '<thead>' +
+            return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px; id="RMATableChild" name="RMATableChild">' +
                 '<tr>' +
-                '<th>Serial Number</th>' +
+                '<td>Serial Number:</td>' +
+                '<td>' + d.serialNumber.serial + '</td>' +
                 '</tr>' +
-                '</thead>' +
-                '<tbody>' +
-                body +
-                '</tbody>' +
                 '</table>';
         }
 

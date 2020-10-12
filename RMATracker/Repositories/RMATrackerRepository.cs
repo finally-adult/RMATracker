@@ -39,7 +39,7 @@ namespace RMATracker.Repositories
 
         public IEnumerable<RMA> GetAllRMAs()
         {
-            return db.RMAs.Include(rma => rma.SerialNumbers).ToList();
+            return db.RMAs.Include(rma => rma.SerialNumber).ToList();
         }
 
         public IEnumerable<SerialNumber> GetAllSerialNumbers()

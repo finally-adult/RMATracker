@@ -5,13 +5,9 @@ namespace RMATracker.Models
 {
     public class RMA
     {
-        public RMA()
-        {
-            SerialNumbers = new List<SerialNumber>();
-        }
         public int Id { get; set; }
         public string RMANumber { get; set; }
-        public List<SerialNumber> SerialNumbers { get; set; }
+        public SerialNumber SerialNumber { get; set; }
         public DateTime DateSent { get; set; }
         public DateTime? DateReceived { get; set; }
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using RMATracker.Interfaces;
 using RMATracker.Models;
+using RMATracker.ViewModels;
 using System;
 using System.Diagnostics;
 
@@ -26,7 +27,9 @@ namespace RMATracker.Controllers
 
         public IActionResult Active()
         {
-            return View();
+            var model = new ActiveViewModel();
+            model.Parts = new SelectList(repository.GetAllParts(), "Id", "Description");
+            return View(model);
         }
 
         public IActionResult Historical()
@@ -41,11 +44,6 @@ namespace RMATracker.Controllers
         }
 
         public IActionResult Privacy()
-        {
-            return View();
-        }
-
-        public IActionResult AddRMA()
         {
             return View();
         }
