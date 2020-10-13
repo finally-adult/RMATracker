@@ -12,9 +12,11 @@
     <thead>
         <tr>
             <th>RMA Number</th>
+            <th>Description</th>
             <th>Date Sent</th>
             <th>Serial Number</th>
             <th>Days Out</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -22,43 +24,43 @@
         {
             <tr>
                 <td>@rma.RMANumber</td>
+                <td>@rma.Description</td>
                 <td>@rma.DateSent.ToString("MM/dd/yyyy")</td>
                 <td>@rma.SerialNumber.Serial</td>
                 <td>@rma.DaysOut()</td>
+                <td><button value="@rma.Id" id="updateRMA" data-toggle="modal" data-target="#updateRMAModal" onclick="javascript:setVal(@rma.Id)" class="btn btn-primary">Update</button></td>
             </tr>
         }
     </tbody>
 </table>
 
-<div class="modal fade" id="addRMAModal" tabindex="-1" role="dialog" aria-labelledby="addRMAModal" aria-hidden="true">
+<partial name="_AddRMAPartial" />
+
+<div class="modal fade" id="updateRMAModal" tabindex="-1" role="dialog" aria-labelledby="updateRMAModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addRMAModalLongTitle">Add RMA</h5>
+                <h5 class="modal-title" id="updateRMAModalLongTitle">Add RMA</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
-                <form asp-action="AddRMA">
+                <form asp-action="UpdateRMA">
+                    <input asp-for="@Model.RMA.Id" id="rmaId" type="hidden" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="@Model.RMA.RMANumber" class="control-label"></label>
-                        <input asp-for="@Model.RMA.RMANumber" class="form-control" />
+                        <input id="rmaNumber" asp-for="@Model.RMA.RMANumber" class="form-control" />
                         <span asp-validation-for="RMA.RMANumber" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <select id="partSelect" asp-items="@Model.Parts" class="selectpicker form-control w-100" data-live-search="true">
-                            <option value="0">Select Part</option>
-                        </select>
+                        <label asp-for="@Model.RMA.Description" class="control-label"></label>
+                        <input id="rmaDescription" asp-for="@Model.RMA.Description" class="form-control" />
+                        <span asp-validation-for="RMA.Description" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <select id="serialNumberSelect" asp-for="@Model.SerialId" class="selectpicker form-control w-100" data-live-search="true">
-                            <option value="0">Select Serial Number</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <input type="submit" value="Update" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
@@ -66,8 +68,15 @@
     </div>
 </div>
 
+
 @section Scripts{
     <script>
+        var rmaId = 0;
+
+        function setVal(value) {
+            rmaId = value;
+        }
+
         $(document).ready(function () {
             $("#RMAtable").DataTable();
         });
@@ -90,6 +99,19 @@
                     });
                     serialSelect.selectpicker('refresh');
                     serialSelect.select(0);
+                }
+            });
+        });
+
+        $('#updateRMAModal').on('shown.bs.modal', function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/rmas/getrma/" + rmaId,
+                contentType: "json",
+                success: function (response) {
+                    $("#rmaNumber").val(response.rmaNumber);
+                    $("#rmaDescription").val(response.description);
+                    $("#rmaId").val(response.id);
                 }
             });
         });

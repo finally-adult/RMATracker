@@ -52,25 +52,26 @@ namespace RMATracker.Controllers
         [HttpPost]
         public IActionResult AddRMA(ActiveViewModel data)
         {
-            var rma = data.RMA;
-            rma.DateSent = DateTime.Now;
             var serialNumber = repository.GetSerialNumberById(data.SerialId);
-            repository.AddRMA(rma);
+
+            repository.AddRMA(data.RMA);
             repository.Commit();
-            serialNumber.RMAId = rma.Id;
+            // move logic to repository
+            serialNumber.RMAId = data.RMA.Id;
             repository.Commit();
+
             return RedirectToAction("Active");
         }
 
-        public IActionResult UpdateRMA()
+        public IActionResult UpdateRMA(ActiveViewModel vm)
         {
-            return View();
-        }
+            // update RMA fields
+            repository.UpdateRMA(vm.RMA);
+            repository.Commit();
 
-        [HttpPost]
-        public IActionResult UpdateRMA(RMA rma)
-        {
-            return RedirectToAction("Active");
+            // update Serial Number fields?
+
+            return vm.RMA.DateReceived != null ? RedirectToAction("Historical") : RedirectToAction("Active");
         }
 
         [HttpPost]

@@ -2,6 +2,7 @@
 using RMATracker.Data;
 using RMATracker.Interfaces;
 using RMATracker.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -22,6 +23,7 @@ namespace RMATracker.Repositories
 
         public void AddRMA(RMA rma)
         {
+            rma.DateSent = DateTime.Now;
             db.Add(rma);
         }
 
@@ -66,6 +68,12 @@ namespace RMATracker.Repositories
         public SerialNumber GetSerialNumberById(int id)
         {
             return db.SerialNumbers.Find(id);
+        }
+
+        public void UpdateRMA(RMA rma)
+        {
+            var entity = db.RMAs.Attach(rma);
+            entity.State = EntityState.Modified;
         }
     }
 }
