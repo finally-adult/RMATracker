@@ -16,13 +16,14 @@ namespace RMATracker.Models
             return (DateTime.Now - DateSent).Days;
         }
 
-        public double DaysToCompletion()
+        public int DaysToCompletion()
         {
-            if (DateReceived != null)
+            if (DateReceived is null)
             {
-                return Math.Abs(DateSent.Subtract((DateTime)DateReceived).TotalDays);
+                return 0;
             }
-            return 0;
+            var daysToCompletion = ((DateTime)DateReceived - DateSent).Days;
+            return daysToCompletion == 0 ? 1 : daysToCompletion;
         }
     }
 }

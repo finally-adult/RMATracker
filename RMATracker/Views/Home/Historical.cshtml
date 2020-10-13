@@ -1,5 +1,34 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<RMA>
+
 @{
+    ViewData["Title"] = "Historical RMAs";
+}
+
+<h2 class="text-center">Historical RMAs</h2>
+
+<table id="historicalRMAs" class="table">
+    <thead>
+        <tr>
+            <th>RMANumber</th>
+            <th>Days</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var rma in Model)
+        {
+            <tr>
+                <td>@rma.RMANumber</td>
+                <td>@rma.DaysToCompletion()</td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+            $("#historicalRMAs").DataTable();
+        })
+    </script>
 }

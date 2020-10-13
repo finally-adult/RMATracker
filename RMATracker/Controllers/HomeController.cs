@@ -6,6 +6,7 @@ using RMATracker.Models;
 using RMATracker.ViewModels;
 using System;
 using System.Diagnostics;
+using System.Linq;
 
 namespace RMATracker.Controllers
 {
@@ -28,14 +29,15 @@ namespace RMATracker.Controllers
         public IActionResult Active()
         {
             var model = new ActiveViewModel();
-            model.RMAs = repository.GetAllRMAs();
+            model.RMAs = repository.GetAllRMAs().Where(r => r.DateReceived == null);
             model.Parts = new SelectList(repository.GetAllParts(), "Id", "Description");
             return View(model);
         }
 
         public IActionResult Historical()
         {
-            return View();
+            var model = repository.GetAllRMAs().Where(r => r.DateReceived != null);
+            return View(model);
         }
 
         public IActionResult Inventory()
