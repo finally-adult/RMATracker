@@ -89,7 +89,11 @@
         function format(d) {
             var body = "";
             $.each(d.serialNumbers, function (index, value) {
-                var rmaNumber = getRMA(value.rmaId);
+                if (value.outForRepair) {
+                    var rmaNumber = getRMA(value.rmaId);
+                } else {
+                    var rmaNumber = '';
+                }
                 body += '<tr><td>' +
                     value.serial +
                     '</td><td>' +
@@ -160,7 +164,7 @@
                     {
                         targets: 4,
                         createdCell: function (td, cellData, rowData, row, col) {
-                            $(td).html(rowData.serialNumbers.filter(s => s.rmaId !== null).length);
+                            $(td).html(rowData.serialNumbers.filter(s => s.outForRepair == true).length);
                         }
                     }
                 ],
