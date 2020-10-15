@@ -9,6 +9,7 @@ namespace RMATracker.Models
         public int PartId { get; set; }
         public string Serial { get; set; }
         public int? RMAId { get; set; }
+        public bool OutForRepair { get; set; }
         // location
     }
 }

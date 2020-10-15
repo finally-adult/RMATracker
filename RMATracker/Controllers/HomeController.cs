@@ -60,6 +60,7 @@ namespace RMATracker.Controllers
             repository.Commit();
             // move logic to repository
             serialNumber.RMAId = data.RMA.Id;
+            serialNumber.OutForRepair = true;
             repository.Commit();
 
             return RedirectToAction("Active");
@@ -68,6 +69,11 @@ namespace RMATracker.Controllers
         [HttpPost]
         public IActionResult UpdateRMA(ActiveViewModel vm)
         {
+            var serialNumber = repository.GetSerialNumberById(vm.SerialId);
+            if (vm.RMA.DateReceived != null)
+            {
+                serialNumber.OutForRepair = false;
+            }
             // update RMA fields
             repository.UpdateRMA(vm.RMA);
             repository.Commit();

@@ -89,6 +89,7 @@ namespace RMATracker.Repositories
         {
             var serialNumber = db.SerialNumbers.Single(s => s.RMAId == id);
             serialNumber.RMAId = null;
+            serialNumber.OutForRepair = false;
         }
     }
 }

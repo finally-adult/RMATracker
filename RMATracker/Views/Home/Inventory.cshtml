@@ -161,7 +161,7 @@
                         targets: 4,
                         createdCell: function (td, cellData, rowData, row, col) {
                             // this is the function that determines the "out for repair", need to check if the RMA has been received
-                            $(td).html(rowData.serialNumbers.filter(s => s.rmaId !== null).length);
+                            $(td).html(rowData.serialNumbers.filter(s => s.outForRepair == true).length);
                         }
                     }
                 ],
