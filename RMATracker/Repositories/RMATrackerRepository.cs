@@ -75,5 +75,20 @@ namespace RMATracker.Repositories
             var entity = db.RMAs.Attach(rma);
             entity.State = EntityState.Modified;
         }
+
+        public void DeleteRMA(int id)
+        {
+            var rma = db.RMAs.Find(id);
+            if (rma is RMA)
+            {
+                db.Remove(rma);
+            }
+        }
+
+        public void RemoveSerialNumberByRMAId(int id)
+        {
+            var serialNumber = db.SerialNumbers.Single(s => s.RMAId == id);
+            serialNumber.RMAId = null;
+        }
     }
 }

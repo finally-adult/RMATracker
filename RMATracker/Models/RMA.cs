@@ -22,7 +22,7 @@ namespace RMATracker.Models
             {
                 return 0;
             }
-            var daysToCompletion = ((DateTime)DateReceived - DateSent).Days;
+            var daysToCompletion = Math.Abs(((DateTime)DateReceived - DateSent).Days);
             return daysToCompletion == 0 ? 1 : daysToCompletion;
         }
     }

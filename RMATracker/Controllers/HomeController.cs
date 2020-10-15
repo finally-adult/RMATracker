@@ -65,6 +65,7 @@ namespace RMATracker.Controllers
             return RedirectToAction("Active");
         }
 
+        [HttpPost]
         public IActionResult UpdateRMA(ActiveViewModel vm)
         {
             // update RMA fields
@@ -77,16 +78,20 @@ namespace RMATracker.Controllers
         }
 
         [HttpPost]
+        public IActionResult DeleteRMA(ActiveViewModel vm)
+        {
+            repository.DeleteRMA(vm.RMA.Id);
+            repository.RemoveSerialNumberByRMAId(vm.RMA.Id);
+            repository.Commit();
+            return RedirectToAction("Active");
+        }
+
+        [HttpPost]
         public IActionResult AddPart(Part part)
         {
             repository.AddPart(part);
             repository.Commit();
             return RedirectToAction("Inventory");
-        }
-
-        public IActionResult UpdatePart()
-        {
-            return View();
         }
 
         [HttpPost]
@@ -101,11 +106,6 @@ namespace RMATracker.Controllers
             repository.AddSerialNumber(serialNumber);
             repository.Commit();
             return RedirectToAction("Inventory");
-        }
-
-        public IActionResult UpdateSerialNumber()
-        {
-            return View();
         }
 
         [HttpPost]

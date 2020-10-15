@@ -16,5 +16,7 @@ namespace RMATracker.Interfaces
         public void UpdateSerialNumber(SerialNumber serialNumber);
         public void UpdateRMA(RMA rma);
         public SerialNumber GetSerialNumberById(int id);
+        public void DeleteRMA(int id);
+        void RemoveSerialNumberByRMAId(int id);
     }
 }
