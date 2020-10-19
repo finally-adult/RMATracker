@@ -10,5 +10,6 @@ namespace RMATracker.ViewModels
         public IEnumerable<RMA> RMAs { get; set; }
         public SelectList Parts { get; set; }
         public int SerialId { get; set; }
+        public string NewSerialNumber { get; set; }
     }
 }

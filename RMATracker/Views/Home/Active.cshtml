@@ -92,6 +92,11 @@
                     $("#updateRMADateSent").val(today);
                     $("#updateRMADescription").val(response.description);
                     $("#updateRMAId").val(response.id);
+                    $("#sentSerialNumber").val(response.serialNumber.serial);
+                    $("#sentSerialId").val(response.serialNumber.id);
+                    $("#sentSerialPartId").val(response.serialNumber.partId);
+                    $("#sentSerialRMAId").val(response.serialNumber.rmaId);
+                    $("#sentSerialOutForRepair").val(response.serialNumber.outForRepair);
                 }
             });
         });

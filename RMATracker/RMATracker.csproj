@@ -11,6 +11,8 @@
     <Compile Remove="Migrations\20200929224650_change RMA relationship.Designer.cs" />
     <Compile Remove="Migrations\20200929224856_change RMA relationship.cs" />
     <Compile Remove="Migrations\20200929224856_change RMA relationship.Designer.cs" />
+    <Compile Remove="Migrations\20201019150338_add attribute.cs" />
+    <Compile Remove="Migrations\20201019150338_add attribute.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

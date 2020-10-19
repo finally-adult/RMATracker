@@ -4,7 +4,7 @@
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="updateRMAModalLongTitle">Add RMA</h5>
+                <h5 class="modal-title" id="updateRMAModalLongTitle">Update RMA</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -12,6 +12,10 @@
             <div class="modal-body">
                 <form asp-action="UpdateRMA">
                     <input asp-for="@Model.RMA.Id" id="updateRMAId" type="hidden" />
+                    <input asp-for="@Model.RMA.SerialNumber.Id" id="sentSerialId" type="hidden" />
+                    <input asp-for="@Model.RMA.SerialNumber.PartId" id="sentSerialPartId" type="hidden" />
+                    <input asp-for="@Model.RMA.SerialNumber.RMAId" id="sentSerialRMAId" type="hidden" />
+                    <input asp-for="@Model.RMA.SerialNumber.OutForRepair" id="sentSerialOutForRepair" type="hidden" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="@Model.RMA.RMANumber" class="control-label"></label>
@@ -27,6 +31,16 @@
                         <label asp-for="@Model.RMA.DateReceived" class="control-label"></label>
                         <input id="updateRMADateReceived" asp-for="@Model.RMA.DateReceived" class="form-control" type="date">
                         <span asp-validation-for="RMA.DateReceived" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.RMA.SerialNumber.Serial" class="control-label">Sent Serial Number</label>
+                        <input id="sentSerialNumber" asp-for="@Model.RMA.SerialNumber.Serial" class="form-control" />
+                        <span asp-validation-for="RMA.SerialNumber.Serial" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="@Model.NewSerialNumber" class="control-label">Received Serial Number</label>
+                        <input id="receivedSerialNumber" asp-for="@Model.NewSerialNumber" class="form-control" />
+                        <span asp-validation-for="NewSerialNumber" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="@Model.RMA.Description" class="control-label"></label>

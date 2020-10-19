@@ -56,7 +56,7 @@ namespace RMATracker.Repositories
 
         public RMA GetRMA(int id)
         {
-            return db.RMAs.Find(id);
+            return db.RMAs.Include(rma => rma.SerialNumber).FirstOrDefault(rma => rma.Id == id);
         }
 
         public void UpdateSerialNumber(SerialNumber serialNumber)

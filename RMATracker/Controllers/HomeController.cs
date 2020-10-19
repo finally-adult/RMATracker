@@ -28,9 +28,11 @@ namespace RMATracker.Controllers
 
         public IActionResult Active()
         {
-            var model = new ActiveViewModel();
-            model.RMAs = repository.GetAllRMAs().Where(r => r.DateReceived == null);
-            model.Parts = new SelectList(repository.GetAllParts(), "Id", "Description");
+            var model = new ActiveViewModel
+            {
+                RMAs = repository.GetAllRMAs().Where(r => r.DateReceived == null),
+                Parts = new SelectList(repository.GetAllParts(), "Id", "Description")
+            };
             return View(model);
         }
 
@@ -69,16 +71,14 @@ namespace RMATracker.Controllers
         [HttpPost]
         public IActionResult UpdateRMA(ActiveViewModel vm)
         {
-            var serialNumber = repository.GetSerialNumberById(vm.SerialId);
-            if (vm.RMA.DateReceived != null)
+            if (vm.NewSerialNumber != null)
             {
-                serialNumber.OutForRepair = false;
+                vm.RMA.SerialNumber.Serial = vm.NewSerialNumber;
             }
-            // update RMA fields
-            repository.UpdateRMA(vm.RMA);
-            repository.Commit();
 
-            // update Serial Number fields?
+            repository.UpdateRMA(vm.RMA);
+            repository.UpdateSerialNumber(vm.RMA.SerialNumber);
+            repository.Commit();
 
             return vm.RMA.DateReceived != null ? RedirectToAction("Historical") : RedirectToAction("Active");
         }
