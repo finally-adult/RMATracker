@@ -4,6 +4,7 @@ namespace RMATracker.Models
 {
     public class RMA
     {
+        // tracking number
         public int Id { get; set; }
         public string RMANumber { get; set; }
         public string Description { get; set; }

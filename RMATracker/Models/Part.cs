@@ -4,6 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RMATracker.Models
 {
+    // create arcive parts as well
+    // can potentially get different part numbers
+    // which repair depot it was sent to
+    // tracking number
     public class Part
     {
         // add functionality to check out into field
@@ -16,6 +20,7 @@ namespace RMATracker.Models
         public string PartNumber { get; set; }
         public string Description { get; set; }
         public List<SerialNumber> SerialNumbers { get; set; }
+        // manufacturer info
 
         public int Quantity()
         {

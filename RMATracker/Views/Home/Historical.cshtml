@@ -10,7 +10,11 @@
     <thead>
         <tr>
             <th>RMANumber</th>
-            <th>Days</th>
+            <th>Description</th>
+            <th>Date Sent</th>
+            <th>Date Received</th>
+            <th>Serial Number</th>
+            <th>Days to Completion</th>
         </tr>
     </thead>
     <tbody>
@@ -18,6 +22,10 @@
         {
             <tr>
                 <td>@rma.RMANumber</td>
+                <td>@rma.Description</td>
+                <td>@rma.DateSent</td>
+                <td>@rma.DateReceived</td>
+                <td>@rma.SerialNumber.Serial</td>
                 <td>@rma.DaysToCompletion()</td>
             </tr>
 

@@ -75,6 +75,10 @@ namespace RMATracker.Controllers
             {
                 vm.RMA.SerialNumber.Serial = vm.NewSerialNumber;
             }
+            if (vm.RMA.DateReceived != null)
+            {
+                vm.RMA.SerialNumber.OutForRepair = false;
+            }
 
             repository.UpdateRMA(vm.RMA);
             repository.UpdateSerialNumber(vm.RMA.SerialNumber);
