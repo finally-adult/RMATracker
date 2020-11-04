@@ -1,5 +1,6 @@
 ﻿@model ActiveViewModel 
 
+<!--
 <div class="modal fade" id="updateRMAModal" tabindex="-1" role="dialog" aria-labelledby="updateRMAModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
@@ -12,10 +13,6 @@
             <div class="modal-body">
                 <form asp-action="UpdateRMA">
                     <input asp-for="@Model.RMA.Id" id="updateRMAId" type="hidden" />
-                    <input asp-for="@Model.RMA.SerialNumber.Id" id="sentSerialId" type="hidden" />
-                    <input asp-for="@Model.RMA.SerialNumber.PartId" id="sentSerialPartId" type="hidden" />
-                    <input asp-for="@Model.RMA.SerialNumber.RMAId" id="sentSerialRMAId" type="hidden" />
-                    <input asp-for="@Model.RMA.SerialNumber.OutForRepair" id="sentSerialOutForRepair" type="hidden" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
                         <label asp-for="@Model.RMA.RMANumber" class="control-label"></label>
@@ -31,11 +28,6 @@
                         <label asp-for="@Model.RMA.DateReceived" class="control-label"></label>
                         <input id="updateRMADateReceived" asp-for="@Model.RMA.DateReceived" class="form-control" type="date">
                         <span asp-validation-for="RMA.DateReceived" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="@Model.RMA.SerialNumber.Serial" class="control-label">Sent Serial Number</label>
-                        <input id="sentSerialNumber" asp-for="@Model.RMA.SerialNumber.Serial" class="form-control" />
-                        <span asp-validation-for="RMA.SerialNumber.Serial" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="@Model.NewSerialNumber" class="control-label">Received Serial Number</label>
@@ -55,3 +47,4 @@
         </div>
     </div>
 </div>
+    -->

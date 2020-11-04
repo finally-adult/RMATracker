@@ -4,11 +4,16 @@ namespace RMATracker.Models
 {
     public class RMA
     {
-        // tracking number
         public int Id { get; set; }
         public string RMANumber { get; set; }
         public string Description { get; set; }
-        public SerialNumber SerialNumber { get; set; }
+        public string TrackingNumber { get; set; }
+        public string RepairVendor { get; set; }
+        public string RepairDepot { get; set; }
+        public string ShippingVendor { get; set; }
+        public string SerialNumberSent { get; set; }
+        public string SerialNumberReceived { get; set; }
+
         public DateTime DateSent { get; set; }
         public DateTime? DateReceived { get; set; }
 

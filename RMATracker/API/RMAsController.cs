@@ -16,27 +16,27 @@ namespace RMATracker.API
             this.repository = repository;
         }
 
-        public IEnumerable<RMA> GetAllRMAs()
-        {
-            return repository.GetAllRMAs();
-        }
+        //public IEnumerable<RMA> GetAllRMAs()
+        //{
+        //    return repository.GetAllRMAs();
+        //}
 
-        [HttpGet]
-        public IEnumerable<Part> GetAllParts()
-        {
-            return repository.GetAllParts();
-        }
+        //[HttpGet]
+        //public IEnumerable<Part> GetAllParts()
+        //{
+        //    return repository.GetAllParts();
+        //}
 
-        [HttpGet("{id}")]
-        public RMA GetRMA(int id)
-        {
-            return repository.GetRMA(id);
-        }
+        //[HttpGet("{id}")]
+        //public RMA GetRMA(int id)
+        //{
+        //    return repository.GetRMA(id);
+        //}
 
-        [HttpGet("{id}")]
-        public IEnumerable<SerialNumber> GetSerialNumbers(int id)
-        {
-            return repository.GetAllSerialNumbers().Where(s => s.PartId == id);
-        }
+        //[HttpGet("{id}")]
+        //public IEnumerable<SerialNumber> GetSerialNumbers(int id)
+        //{
+        //    return repository.GetAllSerialNumbers().Where(s => s.PartId == id);
+        //}
     }
 }

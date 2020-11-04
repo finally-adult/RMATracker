@@ -27,7 +27,7 @@
                 <td>@rma.RMANumber</td>
                 <td>@rma.Description</td>
                 <td>@rma.DateSent.ToString("MM/dd/yyyy")</td>
-                <td>@rma.SerialNumber.Serial</td>
+                <td>@rma.SerialNumberSent</td>
                 <td>@rma.DaysOut()</td>
                 <td><button value="@rma.Id" id="updateRMA" data-toggle="modal" data-target="#updateRMAModal" onclick="javascript:setVal(@rma.Id)" class="btn btn-primary">Update</button></td>
                 <td><button value="@rma.Id" id="deleteRMA" data-toggle="modal" data-target="#deleteRMAModal" onclick="javascript:setVal(@rma.Id)" class="btn btn-danger">Delete</button></td>

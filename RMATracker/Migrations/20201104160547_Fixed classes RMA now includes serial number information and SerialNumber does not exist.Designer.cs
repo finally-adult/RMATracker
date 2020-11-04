@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RMATracker.Data;
 
 namespace RMATracker.Migrations
 {
     [DbContext(typeof(RMATrackerContext))]
-    partial class RMATrackerContextModelSnapshot : ModelSnapshot
+    [Migration("20201104160547_Fixed classes RMA now includes serial number information and SerialNumber does not exist")]
+    partial class FixedclassesRMAnowincludesserialnumberinformationandSerialNumberdoesnotexist
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

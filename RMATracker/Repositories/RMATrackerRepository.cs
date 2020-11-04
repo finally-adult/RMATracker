@@ -32,43 +32,43 @@ namespace RMATracker.Repositories
             db.Add(part);
         }
 
-        public IEnumerable<Part> GetAllParts()
-        {
-            return db.Parts
-                .Include(part => part.SerialNumbers)
-                .ToList();
-        }
+        //public IEnumerable<Part> GetAllParts()
+        //{
+        //    return db.Parts
+        //        .Include(part => part.SerialNumbers)
+        //        .ToList();
+        //}
 
-        public IEnumerable<RMA> GetAllRMAs()
-        {
-            return db.RMAs.Include(rma => rma.SerialNumber).ToList();
-        }
+        //public IEnumerable<RMA> GetAllRMAs()
+        //{
+        //    return db.RMAs.Include(rma => rma.SerialNumber).ToList();
+        //}
 
-        public IEnumerable<SerialNumber> GetAllSerialNumbers()
-        {
-            return db.SerialNumbers.ToList();
-        }
+        //public IEnumerable<SerialNumber> GetAllSerialNumbers()
+        //{
+        //    return db.SerialNumbers.ToList();
+        //}
 
-        public void AddSerialNumber(SerialNumber serialNumber)
-        {
-            db.Add(serialNumber);
-        }
+        //public void AddSerialNumber(SerialNumber serialNumber)
+        //{
+        //    db.Add(serialNumber);
+        //}
 
-        public RMA GetRMA(int id)
-        {
-            return db.RMAs.Include(rma => rma.SerialNumber).FirstOrDefault(rma => rma.Id == id);
-        }
+        //public RMA GetRMA(int id)
+        //{
+        //    return db.RMAs.Include(rma => rma.SerialNumber).FirstOrDefault(rma => rma.Id == id);
+        //}
 
-        public void UpdateSerialNumber(SerialNumber serialNumber)
-        {
-            var entity = db.SerialNumbers.Attach(serialNumber);
-            entity.State = EntityState.Modified;
-        }
+        //public void UpdateSerialNumber(SerialNumber serialNumber)
+        //{
+        //    var entity = db.SerialNumbers.Attach(serialNumber);
+        //    entity.State = EntityState.Modified;
+        //}
 
-        public SerialNumber GetSerialNumberById(int id)
-        {
-            return db.SerialNumbers.Find(id);
-        }
+        //public SerialNumber GetSerialNumberById(int id)
+        //{
+        //    return db.SerialNumbers.Find(id);
+        //}
 
         public void UpdateRMA(RMA rma)
         {
@@ -85,11 +85,11 @@ namespace RMATracker.Repositories
             }
         }
 
-        public void RemoveSerialNumberByRMAId(int id)
-        {
-            var serialNumber = db.SerialNumbers.Single(s => s.RMAId == id);
-            serialNumber.RMAId = null;
-            serialNumber.OutForRepair = false;
-        }
+        //public void RemoveSerialNumberByRMAId(int id)
+        //{
+        //    var serialNumber = db.SerialNumbers.Single(s => s.RMAId == id);
+        //    serialNumber.RMAId = null;
+        //    serialNumber.OutForRepair = false;
+        //}
     }
 }
