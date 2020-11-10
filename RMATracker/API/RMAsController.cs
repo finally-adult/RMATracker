@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RMATracker.Interfaces;
 using RMATracker.Models;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace RMATracker.API
 {
@@ -27,11 +25,11 @@ namespace RMATracker.API
         //    return repository.GetAllParts();
         //}
 
-        //[HttpGet("{id}")]
-        //public RMA GetRMA(int id)
-        //{
-        //    return repository.GetRMA(id);
-        //}
+        [HttpGet("{id}")]
+        public RMA GetRMA(int id)
+        {
+            return repository.GetRMA(id);
+        }
 
         //[HttpGet("{id}")]
         //public IEnumerable<SerialNumber> GetSerialNumbers(int id)

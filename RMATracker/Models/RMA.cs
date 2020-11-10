@@ -13,6 +13,8 @@ namespace RMATracker.Models
         public string ShippingVendor { get; set; }
         public string SerialNumberSent { get; set; }
         public string SerialNumberReceived { get; set; }
+        public int PartId { get; set; }
+        public Part Part { get; set; }
 
         public DateTime DateSent { get; set; }
         public DateTime? DateReceived { get; set; }

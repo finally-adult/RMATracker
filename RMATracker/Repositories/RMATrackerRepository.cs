@@ -32,17 +32,16 @@ namespace RMATracker.Repositories
             db.Add(part);
         }
 
-        //public IEnumerable<Part> GetAllParts()
-        //{
-        //    return db.Parts
-        //        .Include(part => part.SerialNumbers)
-        //        .ToList();
-        //}
+        public IEnumerable<Part> GetAllParts()
+        {
+            return db.Parts.ToList();
+        }
 
-        //public IEnumerable<RMA> GetAllRMAs()
-        //{
-        //    return db.RMAs.Include(rma => rma.SerialNumber).ToList();
-        //}
+        public IEnumerable<RMA> GetAllRMAs()
+        {
+            var rmas = db.RMAs.Include(r => r.Part).ToList();
+            return rmas;
+        }
 
         //public IEnumerable<SerialNumber> GetAllSerialNumbers()
         //{
@@ -54,10 +53,10 @@ namespace RMATracker.Repositories
         //    db.Add(serialNumber);
         //}
 
-        //public RMA GetRMA(int id)
-        //{
-        //    return db.RMAs.Include(rma => rma.SerialNumber).FirstOrDefault(rma => rma.Id == id);
-        //}
+        public RMA GetRMA(int id)
+        {
+            return db.RMAs.FirstOrDefault(rma => rma.Id == id);
+        }
 
         //public void UpdateSerialNumber(SerialNumber serialNumber)
         //{

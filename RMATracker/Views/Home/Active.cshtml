@@ -13,8 +13,13 @@
         <tr>
             <th>RMA Number</th>
             <th>Description</th>
+            <th>Shipping Vendor</th>
+            <th>Tracking Number</th>
+            <th>Repair Vendor</th>
+            <th>Repair Depot</th>
             <th>Date Sent</th>
-            <th>Serial Number</th>
+            <th>Part Number</th>
+            <th>Serial Number Sent</th>
             <th>Days Out</th>
             <th></th>
             <th></th>
@@ -26,7 +31,12 @@
             <tr>
                 <td>@rma.RMANumber</td>
                 <td>@rma.Description</td>
+                <td>@rma.ShippingVendor</td>
+                <td>@rma.TrackingNumber</td>
+                <td>@rma.RepairVendor</td>
+                <td>@rma.RepairDepot</td>
                 <td>@rma.DateSent.ToString("MM/dd/yyyy")</td>
+                <td>@rma.Part.PartNumber</td>
                 <td>@rma.SerialNumberSent</td>
                 <td>@rma.DaysOut()</td>
                 <td><button value="@rma.Id" id="updateRMA" data-toggle="modal" data-target="#updateRMAModal" onclick="javascript:setVal(@rma.Id)" class="btn btn-primary">Update</button></td>
@@ -36,12 +46,176 @@
     </tbody>
 </table>
 
+<div class="modal fade" id="addRMAModal" tabindex="-1" role="dialog" aria-labelledby="addRMAModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addRMAModalLongTitle">Add RMA</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="AddRMA">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="RMA.RMANumber" class="control-label"></label>
+                        <input asp-for="RMA.RMANumber" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.Part" class="control-label"></label>
+                        <select id="partSelect" asp-items="@Model.Parts" asp-for="RMA.PartId" class="selectpicker form-control w-100" data-live-search="true">
+                            <option value="0">Select Part</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.Description" class="control-label"></label>
+                        <input asp-for="RMA.Description" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.ShippingVendor" class="control-label"></label>
+                        <input asp-for="RMA.ShippingVendor" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.TrackingNumber" class="control-label"></label>
+                        <input asp-for="RMA.TrackingNumber" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.RepairVendor" class="control-label"></label>
+                        <input asp-for="RMA.RepairVendor" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.RepairDepot" class="control-label"></label>
+                        <input asp-for="RMA.RepairDepot" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.SerialNumberSent" class="control-label"></label>
+                        <input asp-for="RMA.SerialNumberSent" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.DateSent" class="control-label"></label>
+                        <input id="addRmaDateSent" asp-for="RMA.DateSent" class="form-control" type="date">
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateRMAModal" tabindex="-1" role="dialog" aria-labelledby="updateRMAModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updateRMAModalLongTitle">Update RMA</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="UpdateRMA">
+                    <input asp-for="RMA.Id" id="updateRMAId" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="RMA.RMANumber" class="control-label"></label>
+                        <input id="updateRMANumber" asp-for="RMA.RMANumber" class="form-control" />
+                        <span asp-validation-for="RMA.RMANumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.Part" class="control-label"></label>
+                        <select id="updateRMApartSelect" asp-items="@Model.Parts" asp-for="RMA.PartId" class="selectpicker form-control w-100" data-live-search="true">
+                            <option value="0">Select Part</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.Description" class="control-label"></label>
+                        <input id="updateRMADescription" asp-for="RMA.Description" class="form-control" />
+                        <span asp-validation-for="RMA.Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.ShippingVendor" class="control-label"></label>
+                        <input id="updateRMAShippingVendor" asp-for="RMA.ShippingVendor" class="form-control" />
+                        <span asp-validation-for="RMA.ShippingVendor" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.TrackingNumber" class="control-label"></label>
+                        <input id="updateRMATrackingNumber" asp-for="RMA.TrackingNumber" class="form-control" />
+                        <span asp-validation-for="RMA.TrackingNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.RepairVendor" class="control-label"></label>
+                        <input id="updateRMARepairVendor" asp-for="RMA.RepairVendor" class="form-control" />
+                        <span asp-validation-for="RMA.RepairVendor" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.RepairDepot" class="control-label"></label>
+                        <input id="updateRMARepairDepot" asp-for="RMA.RepairDepot" class="form-control" />
+                        <span asp-validation-for="RMA.RepairDepot" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.DateSent" class="control-label"></label>
+                        <input id="updateRMADateSent" asp-for="RMA.DateSent" class="form-control" type="date">
+                        <span asp-validation-for="RMA.DateSent" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.DateReceived" class="control-label"></label>
+                        <input id="updateRMADateReceived" asp-for="RMA.DateReceived" class="form-control" type="date">
+                        <span asp-validation-for="RMA.DateReceived" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.SerialNumberSent" class="control-label">Sent Serial Number</label>
+                        <input id="sentSerialNumber" asp-for="RMA.SerialNumberSent" class="form-control" />
+                        <span asp-validation-for="RMA.SerialNumberSent" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.SerialNumberReceived" class="control-label">Received Serial Number</label>
+                        <input id="receivedSerialNumber" asp-for="RMA.SerialNumberReceived" class="form-control" />
+                        <span asp-validation-for="RMA.SerialNumberReceived" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deleteRMAModal" tabindex="-1" role="dialog" aria-labelledby="deleteRMAModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteRMAModalLongTitle">Delete RMA</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="DeleteRMA">
+                    <input asp-for="RMA.Id" id="deleteRMAId" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="alert alert-danger" role="alert">
+                        Are you sure you want to delete RMA: <span id="rmaIdText"></span>?
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--
 <partial name="_AddRMAPartial" />
 
 <partial name="_UpdateRMAPartial" />
 
 <partial name="_DeleteRMAPartial" />
-
+-->
 
 @section Scripts{
     <script>
@@ -55,27 +229,27 @@
             $("#RMAtable").DataTable();
         });
 
-        $("#partSelect").change(function () {
-            var selectedPart = $("#partSelect").val();
-            var serialSelect = $("#serialNumberSelect");
-            serialSelect.empty();
-            console.log(selectedPart);
-            $.ajax({
-                type: "GET",
-                url: "/api/rmas/getserialnumbers/" + selectedPart,
-                contentType: "json; charset=utf-8",
-                success: function (serialNumbers) {
-                    serialSelect.append(new Option("Select Serial Number", 0, true, true));
-                    $.each(serialNumbers, function (index, serialNumber) {
-                        serialSelect.append(new Option(serialNumber.serial, serialNumber.id, true, true));
-                        console.log(serialNumber.id);
-                        console.log(serialNumber.serial);
-                    });
-                    serialSelect.selectpicker('refresh');
-                    serialSelect.select(0);
-                }
-            });
-        });
+        //$("#partSelect").change(function () {
+        //    var selectedPart = $("#partSelect").val();
+        //    var serialSelect = $("#serialNumberSelect");
+        //    serialSelect.empty();
+        //    console.log(selectedPart);
+        //    $.ajax({
+        //        type: "GET",
+        //        url: "/api/rmas/getserialnumbers/" + selectedPart,
+        //        contentType: "json; charset=utf-8",
+        //        success: function (serialNumbers) {
+        //            serialSelect.append(new Option("Select Serial Number", 0, true, true));
+        //            $.each(serialNumbers, function (index, serialNumber) {
+        //                serialSelect.append(new Option(serialNumber.serial, serialNumber.id, true, true));
+        //                console.log(serialNumber.id);
+        //                console.log(serialNumber.serial);
+        //            });
+        //            serialSelect.selectpicker('refresh');
+        //            serialSelect.select(0);
+        //        }
+        //    });
+        //});
 
         $('#updateRMAModal').on('shown.bs.modal', function () {
             $.ajax({
@@ -89,14 +263,18 @@
                     console.log(now);
                     var today = now.getFullYear() + '-' + ("0" + (now.getMonth() + 1)).slice(-2) + '-' + ("0" + now.getDate()).slice(-2);
                     console.log(today);
+                    // shipping vendor
+                    $("#updateRMAShippingVendor").val(response.shippingVendor);
+                    // tracking number
+                    $("#updateRMATrackingNumber").val(response.trackingNumber);
+                    // repair vendor
+                    $("#updateRMARepairVendor").val(response.repairVendor);
+                    // repair depot
+                    $("#updateRMARepairDepot").val(response.repairDepot);
                     $("#updateRMADateSent").val(today);
                     $("#updateRMADescription").val(response.description);
                     $("#updateRMAId").val(response.id);
-                    $("#sentSerialNumber").val(response.serialNumber.serial);
-                    $("#sentSerialId").val(response.serialNumber.id);
-                    $("#sentSerialPartId").val(response.serialNumber.partId);
-                    $("#sentSerialRMAId").val(response.serialNumber.rmaId);
-                    $("#sentSerialOutForRepair").val(response.serialNumber.outForRepair);
+                    $("#sentSerialNumber").val(response.serialNumberSent);
                 }
             });
         });
