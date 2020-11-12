@@ -36,23 +36,23 @@ namespace RMATracker.Controllers
 
             var model = new ActiveViewModel
             {
-                RMAs = repository.GetAllRMAs().Where(r => r.DateReceived == null),
-                Parts = new SelectList(parts, "Value", "Text")
+                RMAs = repository.GetAllRMAs().Where(r => r.DateReceived is null),
+                Parts = new SelectList(repository.GetAllParts(), "Id", "Description")
             };
             return View(model);
         }
 
         public IActionResult Historical()
         {
-            var model = repository.GetAllRMAs().Where(r => r.DateReceived != null);
+            var model = repository.GetAllRMAs().Where(r => r.DateReceived is not null);
             return View(model);
         }
 
-        //public IActionResult Inventory()
-        //{
-        //    ViewBag.PartId = new SelectList(repository.GetAllParts(), "Id", "Description");
-        //    return View();
-        //}
+        public IActionResult Inventory()
+        {
+            ViewBag.PartId = new SelectList(repository.GetAllParts(), "Id", "Description");
+            return View();
+        }
 
         public IActionResult Privacy()
         {
@@ -72,7 +72,7 @@ namespace RMATracker.Controllers
         public IActionResult UpdateRMA(ActiveViewModel vm)
         {
             // this logic needs to be updated
-            if (vm.NewSerialNumber != null)
+            if (vm.NewSerialNumber is not null)
             {
                 vm.RMA.SerialNumberReceived = vm.NewSerialNumber;
             }
@@ -80,7 +80,7 @@ namespace RMATracker.Controllers
             repository.UpdateRMA(vm.RMA);
             repository.Commit();
 
-            return vm.RMA.DateReceived != null ? RedirectToAction("Historical") : RedirectToAction("Active");
+            return vm.RMA.DateReceived is not null ? RedirectToAction("Historical") : RedirectToAction("Active");
         }
 
         [HttpPost]
@@ -104,20 +104,6 @@ namespace RMATracker.Controllers
         {
             return RedirectToAction("Inventory");
         }
-
-        //[HttpPost]
-        //public IActionResult AddSerialNumber(SerialNumber serialNumber)
-        //{
-        //    repository.AddSerialNumber(serialNumber);
-        //    repository.Commit();
-        //    return RedirectToAction("Inventory");
-        //}
-
-        //[HttpPost]
-        //public IActionResult UpdateSerialNumber(SerialNumber serialNumber)
-        //{
-        //    return RedirectToAction("Inventory");
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

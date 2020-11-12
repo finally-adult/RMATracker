@@ -11,8 +11,13 @@
         <tr>
             <th>RMANumber</th>
             <th>Description</th>
+            <th>Shipping Vendor</th>
+            <th>Tracking Number</th>
+            <th>Repair Vendor</th>
+            <th>Repair Depot</th>
             <th>Date Sent</th>
             <th>Date Received</th>
+            <th>Part Number</th>
             <th>Serial Number Sent</th>
             <th>Serial Number Received</th>
             <th>Days to Completion</th>
@@ -24,8 +29,13 @@
             <tr>
                 <td>@rma.RMANumber</td>
                 <td>@rma.Description</td>
-                <td>@rma.DateSent</td>
-                <td>@rma.DateReceived</td>
+                <td>@rma.ShippingVendor</td>
+                <td>@rma.TrackingNumber</td>
+                <td>@rma.RepairVendor</td>
+                <td>@rma.RepairDepot</td>
+                <td>@rma.DateSent.ToString("MM/dd/yyyy")</td>
+                <td>@rma.DateReceived?.ToString("MM/dd/yyyy")</td>
+                <td>@rma.Part.PartNumber</td>
                 <td>@rma.SerialNumberSent</td>
                 <td>@rma.SerialNumberReceived</td>
                 <td>@rma.DaysToCompletion()</td>

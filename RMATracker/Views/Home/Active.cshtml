@@ -125,7 +125,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="RMA.Part" class="control-label"></label>
-                        <select id="updateRMApartSelect" asp-items="@Model.Parts" asp-for="RMA.PartId" class="selectpicker form-control w-100" data-live-search="true">
+                        <select id="updateRMAPartSelect" asp-items="@Model.Parts" asp-for="RMA.PartId" class="selectpicker form-control w-100" data-live-search="true">
                             <option value="0">Select Part</option>
                         </select>
                     </div>
@@ -209,17 +209,10 @@
     </div>
 </div>
 
-<!--
-<partial name="_AddRMAPartial" />
-
-<partial name="_UpdateRMAPartial" />
-
-<partial name="_DeleteRMAPartial" />
--->
-
 @section Scripts{
     <script>
         var rmaId = 0;
+        var partId = 0;
 
         function setVal(value) {
             rmaId = value;
@@ -229,28 +222,6 @@
             $("#RMAtable").DataTable();
         });
 
-        //$("#partSelect").change(function () {
-        //    var selectedPart = $("#partSelect").val();
-        //    var serialSelect = $("#serialNumberSelect");
-        //    serialSelect.empty();
-        //    console.log(selectedPart);
-        //    $.ajax({
-        //        type: "GET",
-        //        url: "/api/rmas/getserialnumbers/" + selectedPart,
-        //        contentType: "json; charset=utf-8",
-        //        success: function (serialNumbers) {
-        //            serialSelect.append(new Option("Select Serial Number", 0, true, true));
-        //            $.each(serialNumbers, function (index, serialNumber) {
-        //                serialSelect.append(new Option(serialNumber.serial, serialNumber.id, true, true));
-        //                console.log(serialNumber.id);
-        //                console.log(serialNumber.serial);
-        //            });
-        //            serialSelect.selectpicker('refresh');
-        //            serialSelect.select(0);
-        //        }
-        //    });
-        //});
-
         $('#updateRMAModal').on('shown.bs.modal', function () {
             $.ajax({
                 type: "GET",
@@ -259,17 +230,14 @@
                 success: function (response) {
                     console.log(response);
                     $("#updateRMANumber").val(response.rmaNumber);
+                    $("#updateRMAPartSelect").val(response.partId).selectpicker('refresh');
                     var now = new Date(response.dateSent);
                     console.log(now);
                     var today = now.getFullYear() + '-' + ("0" + (now.getMonth() + 1)).slice(-2) + '-' + ("0" + now.getDate()).slice(-2);
                     console.log(today);
-                    // shipping vendor
                     $("#updateRMAShippingVendor").val(response.shippingVendor);
-                    // tracking number
                     $("#updateRMATrackingNumber").val(response.trackingNumber);
-                    // repair vendor
                     $("#updateRMARepairVendor").val(response.repairVendor);
-                    // repair depot
                     $("#updateRMARepairDepot").val(response.repairDepot);
                     $("#updateRMADateSent").val(today);
                     $("#updateRMADescription").val(response.description);
