@@ -1,5 +1,5 @@
 ﻿var rmaId = 0;
-var partId = 0;
+// var partId = 0;
 
 function setVal(value) {
     rmaId = value;

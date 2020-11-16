@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Part>
+﻿@model InventoryViewModel
 
 @{
     ViewData["Title"] = "Inventory";
@@ -15,24 +15,29 @@
             <th>Part Description</th>
             <th>On Hand</th>
             <th>Out For Repair</th>
+            <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach(var part in Model)
+        @foreach (var part in Model.Parts)
         {
             <tr>
                 <td>@part.PartNumber</td>
                 <td>@part.Description</td>
                 <td>@part.QuantityOnHand</td>
                 <td>@part.QuantityOutForRepair</td>
+                <td>
+                    <div class="btn-group">
+                        <button value="@part.Id" id="updatePart" data-toggle="modal" data-target="#updatePartModal" onclick="javascript:setVal(@part.Id)" class="btn btn-primary mr-1 rounded-right">Update</button>
+                        <button value="@part.Id" id="deletePart" data-toggle="modal" data-target="#deletePartModal" onclick="javascript:setVal(@part.Id)" class="btn btn-danger rounded-left">Delete</button>
+                    </div>
+                </td>
             </tr>
         }
     </tbody>
 </table>
 
-<partial name="~/Views/Shared/_AddPartPartial.cshtml" />
-
-@*<div class="modal fade" id="addPartModal" tabindex="-1" role="dialog" aria-labelledby="addPartModal" aria-hidden="true">
+<div class="modal fade" id="addPartModal" tabindex="-1" role="dialog" aria-labelledby="addPartModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -55,70 +60,34 @@
                         <span asp-validation-for="Part.Description" class="text-danger"></span>
                     </div>
                     <div class="form-group">
+                        <label asp-for="Part.QuantityOnHand" class="control-label"></label>
+                        <input asp-for="Part.QuantityOnHand" class="form-control" />
+                        <span asp-validation-for="Part.QuantityOnHand" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Part.QuantityOutForRepair" class="control-label"></label>
+                        <input asp-for="Part.QuantityOutForRepair" class="form-control" />
+                        <span asp-validation-for="Part.QuantityOutForRepair" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>*@
+</div>
 
 @section Scripts{
     <script>
+        var partId = 0;
 
-        //function getRMA(id) {
-        //    var rma = '';
-        //    if (id !== null) {
-        //        $.ajax({
-        //            type: "GET",
-        //            url: "/api/rmas/getrma/" + id,
-        //            async: false,
-        //            success: function (response) {
-        //                rma = response.rmaNumber;
-        //            },
-        //        });
-        //    }
-        //    return rma;
-        //}
+        function setVal(value) {
+            partId = value;
+        }
 
         $(document).ready(function () {
-            var table = $("#inventoryTable").DataTable();
-            //var table = $('#inventoryTable').DataTable({
-            //    ajax: {
-            //        type: "GET",
-            //        url: "/api/rmas/getallparts",
-            //        dataSrc: "",
-            //        contentType: "application/json",
-            //        dataType: "json"
-            //    },
-            //    columns: [
-            //        {
-            //            className: 'details-control',
-            //            orderable: false,
-            //            data: null,
-            //            defaultContent: ''
-            //        },
-            //        { data: "partNumber" },
-            //        { data: "description" },
-            //        { data: "serialNumbers.length" },
-            //        { data: null },
-            //        { data: null, orderable: false }
-            //    ],
-            //    columnDefs: [
-            //        {
-            //            targets: -1,
-            //            createdCell: function (td, cellData, rowData, row, col) {
-            //                $(td).html('<button class="btn btn-primary" data-toggle="modal" data-target="\#addSerialNumberModal" onclick="javascript:setVal(' + rowData.id + ')">Add Serial Number<\/button>');
-            //            }
-            //        },
-            //        {
-            //            targets: 4,
-            //            createdCell: function (td, cellData, rowData, row, col) {
-            //                $(td).html(rowData.serialNumbers.filter(s => s.outForRepair == true).length);
-            //            }
-            //        }
-            //    ],
-            //});
+            $("#inventoryTable").DataTable();
         });
     </script>
 }

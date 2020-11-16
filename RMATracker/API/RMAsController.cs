@@ -14,17 +14,6 @@ namespace RMATracker.API
             this.repository = repository;
         }
 
-        //public IEnumerable<RMA> GetAllRMAs()
-        //{
-        //    return repository.GetAllRMAs();
-        //}
-
-        //[HttpGet]
-        //public IEnumerable<Part> GetAllParts()
-        //{
-        //    return repository.GetAllParts();
-        //}
-
         [HttpGet("{id}")]
         public RMA GetRMA(int id)
         {

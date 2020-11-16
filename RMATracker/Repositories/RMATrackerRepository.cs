@@ -29,6 +29,9 @@ namespace RMATracker.Repositories
 
         public void AddRMA(RMA rma)
         {
+            var part = db.Parts.Find(rma.PartId);
+            part.QuantityOnHand -= 1;
+            part.QuantityOutForRepair += 1;
             rma.DateSent = DateTime.Now;
             db.Add(rma);
         }
@@ -44,6 +47,9 @@ namespace RMATracker.Repositories
             var rma = db.RMAs.Find(id);
             if (rma is RMA)
             {
+                var part = db.Parts.Find(rma.PartId);
+                part.QuantityOnHand += 1;
+                part.QuantityOutForRepair -= 1;
                 db.Remove(rma);
             }
         }

@@ -62,8 +62,10 @@ namespace RMATracker.Controllers
 
         public IActionResult Inventory()
         {
-            var model = repository.GetAllParts();
-            // ViewBag.PartId = new SelectList(repository.GetAllParts(), "Id", "Description");
+            var model = new InventoryViewModel
+            {
+                Parts = repository.GetAllParts()
+            };
             return View(model);
         }
 
@@ -82,6 +84,12 @@ namespace RMATracker.Controllers
             if (vm.NewSerialNumber is not null)
             {
                 vm.RMA.SerialNumberReceived = vm.NewSerialNumber;
+            }
+            if (vm.RMA.DateReceived is not null)
+            {
+                var part = repository.GetPart(vm.RMA.PartId);
+                part.QuantityOnHand += 1;
+                part.QuantityOutForRepair -= 1;
             }
 
             repository.UpdateRMA(vm.RMA);
