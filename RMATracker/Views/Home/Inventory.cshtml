@@ -66,11 +66,53 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="Part.QuantityOutForRepair" class="control-label"></label>
-                        <input asp-for="Part.QuantityOutForRepair" class="form-control" />
+                        <input type="number" asp-for="Part.QuantityOutForRepair" class="form-control" />
                         <span asp-validation-for="Part.QuantityOutForRepair" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updatePartModal" tabindex="-1" role="dialog" aria-labelledby="updatePartModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="updatePartModalLongTitle">Update Part</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="UpdatePart">
+                    <input asp-for="Part.Id" id="updatePartId" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="Part.PartNumber" class="control-label"></label>
+                        <input id="updatePartNumber" asp-for="Part.PartNumber" class="form-control" />
+                        <span asp-validation-for="Part.PartNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Part.Description" class="control-label"></label>
+                        <input id="updatePartDescription" asp-for="Part.Description" class="form-control" />
+                        <span asp-validation-for="Part.Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Part.QuantityOnHand" class="control-label"></label>
+                        <input id="updatePartQuantityOnHand" asp-for="Part.QuantityOnHand" class="form-control" />
+                        <span asp-validation-for="Part.QuantityOnHand" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Part.QuantityOutForRepair" class="control-label"></label>
+                        <input id="updatePartQuantityOutForRepair" asp-for="Part.QuantityOutForRepair" class="form-control" />
+                        <span asp-validation-for="Part.QuantityOutForRepair" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Update" class="btn btn-primary" />
                     </div>
                 </form>
             </div>
@@ -88,6 +130,22 @@
 
         $(document).ready(function () {
             $("#inventoryTable").DataTable();
+        });
+
+        $('#updatePartModal').on('shown.bs.modal', function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/rmas/getpart/" + partId,
+                contentType: "json",
+                success: function (response) {
+                    console.log(response);
+                    $("#updatePartId").val(response.id);
+                    $("#updatePartNumber").val(response.partNumber);
+                    $("#updatePartDescription").val(response.description);
+                    $("#updatePartQuantityOnHand").val(response.quantityOnHand);
+                    $("#updatePartQuantityOutForRepair").val(response.quantityOutForRepair);
+                }
+            });
         });
     </script>
 }
