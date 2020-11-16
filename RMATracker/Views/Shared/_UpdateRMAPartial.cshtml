@@ -1,4 +1,4 @@
-﻿@model ActiveViewModel 
+﻿@model ActiveViewModel
 
 <div class="modal fade" id="updateRMAModal" tabindex="-1" role="dialog" aria-labelledby="updateRMAModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
@@ -11,33 +11,65 @@
             </div>
             <div class="modal-body">
                 <form asp-action="UpdateRMA">
-                    <input asp-for="@Model.RMA.Id" id="updateRMAId" type="hidden" />
+                    <input asp-for="RMA.Id" id="updateRMAId" type="hidden" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
-                        <label asp-for="@Model.RMA.RMANumber" class="control-label"></label>
-                        <input id="updateRMANumber" asp-for="@Model.RMA.RMANumber" class="form-control" />
+                        <label asp-for="RMA.RMANumber" class="control-label"></label>
+                        <input id="updateRMANumber" asp-for="RMA.RMANumber" class="form-control" />
                         <span asp-validation-for="RMA.RMANumber" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="@Model.RMA.DateSent" class="control-label"></label>
-                        <input id="updateRMADateSent" asp-for="@Model.RMA.DateSent" class="form-control" type="date">
+                        <label asp-for="RMA.Part" class="control-label"></label>
+                        <select id="updateRMAPartSelect" asp-items="@Model.Parts" asp-for="RMA.PartId" class="selectpicker form-control w-100" data-live-search="true">
+                            <option value="0">Select Part</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.Description" class="control-label"></label>
+                        <input id="updateRMADescription" asp-for="RMA.Description" class="form-control" />
+                        <span asp-validation-for="RMA.Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.ShippingVendor" class="control-label"></label>
+                        <input id="updateRMAShippingVendor" asp-for="RMA.ShippingVendor" class="form-control" />
+                        <span asp-validation-for="RMA.ShippingVendor" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.TrackingNumber" class="control-label"></label>
+                        <input id="updateRMATrackingNumber" asp-for="RMA.TrackingNumber" class="form-control" />
+                        <span asp-validation-for="RMA.TrackingNumber" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.RepairVendor" class="control-label"></label>
+                        <input id="updateRMARepairVendor" asp-for="RMA.RepairVendor" class="form-control" />
+                        <span asp-validation-for="RMA.RepairVendor" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.RepairDepot" class="control-label"></label>
+                        <input id="updateRMARepairDepot" asp-for="RMA.RepairDepot" class="form-control" />
+                        <span asp-validation-for="RMA.RepairDepot" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RMA.DateSent" class="control-label"></label>
+                        <input id="updateRMADateSent" asp-for="RMA.DateSent" class="form-control" type="date">
                         <span asp-validation-for="RMA.DateSent" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="@Model.RMA.DateReceived" class="control-label"></label>
-                        <input id="updateRMADateReceived" asp-for="@Model.RMA.DateReceived" class="form-control" type="date">
+                        <label asp-for="RMA.DateReceived" class="control-label"></label>
+                        <input id="updateRMADateReceived" asp-for="RMA.DateReceived" class="form-control" type="date">
                         <span asp-validation-for="RMA.DateReceived" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="@Model.NewSerialNumber" class="control-label">Received Serial Number</label>
-                        <input id="receivedSerialNumber" asp-for="@Model.NewSerialNumber" class="form-control" />
-                        <span asp-validation-for="NewSerialNumber" class="text-danger"></span>
+                        <label asp-for="RMA.SerialNumberSent" class="control-label">Sent Serial Number</label>
+                        <input id="sentSerialNumber" asp-for="RMA.SerialNumberSent" class="form-control" />
+                        <span asp-validation-for="RMA.SerialNumberSent" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label asp-for="@Model.RMA.Description" class="control-label"></label>
-                        <input id="updateRMADescription" asp-for="@Model.RMA.Description" class="form-control" />
-                        <span asp-validation-for="RMA.Description" class="text-danger"></span>
+                        <label asp-for="RMA.SerialNumberReceived" class="control-label">Received Serial Number</label>
+                        <input id="receivedSerialNumber" asp-for="RMA.SerialNumberReceived" class="form-control" />
+                        <span asp-validation-for="RMA.SerialNumberReceived" class="text-danger"></span>
                     </div>
+
                     <div class="form-group">
                         <input type="submit" value="Update" class="btn btn-primary" />
                     </div>

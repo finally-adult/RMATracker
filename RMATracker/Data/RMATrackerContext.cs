@@ -12,6 +12,5 @@ namespace RMATracker.Data
 
         public DbSet<RMA> RMAs { get; set; }
         public DbSet<Part> Parts { get; set; }
-        //public DbSet<SerialNumber> SerialNumbers { get; set; }
     }
 }

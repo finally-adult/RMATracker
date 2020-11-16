@@ -11,7 +11,7 @@
             </div>
             <div class="modal-body">
                 <form asp-action="DeleteRMA">
-                    <input asp-for="@Model.RMA.Id" id="deleteRMAId" type="hidden" />
+                    <input asp-for="RMA.Id" id="deleteRMAId" type="hidden" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="alert alert-danger" role="alert">
                         Are you sure you want to delete RMA: <span id="rmaIdText"></span>?

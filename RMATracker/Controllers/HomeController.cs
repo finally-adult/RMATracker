@@ -22,7 +22,19 @@ namespace RMATracker.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            var parts = repository.GetAllParts()
+                .Select(p => new SelectListItem
+                {
+                    Value = p.Id.ToString(),
+                    Text = $"{p.PartNumber}: {p.Description}"
+                });
+
+            var model = new ActiveViewModel
+            {
+                Parts = new SelectList(repository.GetAllParts(), "Id", "Description")
+            };
+
+            return View(model);
         }
 
         public IActionResult Active()
@@ -50,13 +62,9 @@ namespace RMATracker.Controllers
 
         public IActionResult Inventory()
         {
-            ViewBag.PartId = new SelectList(repository.GetAllParts(), "Id", "Description");
-            return View();
-        }
-
-        public IActionResult Privacy()
-        {
-            return View();
+            var model = repository.GetAllParts();
+            // ViewBag.PartId = new SelectList(repository.GetAllParts(), "Id", "Description");
+            return View(model);
         }
 
         [HttpPost]
@@ -71,7 +79,6 @@ namespace RMATracker.Controllers
         [HttpPost]
         public IActionResult UpdateRMA(ActiveViewModel vm)
         {
-            // this logic needs to be updated
             if (vm.NewSerialNumber is not null)
             {
                 vm.RMA.SerialNumberReceived = vm.NewSerialNumber;
@@ -102,6 +109,16 @@ namespace RMATracker.Controllers
         [HttpPost]
         public IActionResult UpdatePart(Part part)
         {
+            repository.UpdatePart(part);
+            repository.Commit();
+            return RedirectToAction("Inventory");
+        }
+
+        [HttpPost]
+        public IActionResult DeletePart(int id)
+        {
+            repository.DeletePart(id);
+            repository.Commit();
             return RedirectToAction("Inventory");
         }
 

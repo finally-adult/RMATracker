@@ -6,17 +6,15 @@ namespace RMATracker.Interfaces
     public interface IRMATrackerRepository
     {
         public IEnumerable<RMA> GetAllRMAs();
-        public IEnumerable<Part> GetAllParts();
-        //public IEnumerable<SerialNumber> GetAllSerialNumbers();
+        public RMA GetRMA(int id);
         public void AddRMA(RMA rma);
-        public void AddPart(Part part);
-        public void Commit();
-        //public void AddSerialNumber(SerialNumber serialNumber);
-        RMA GetRMA(int id);
-        //public void UpdateSerialNumber(SerialNumber serialNumber);
         public void UpdateRMA(RMA rma);
-        //public SerialNumber GetSerialNumberById(int id);
         public void DeleteRMA(int id);
-        //void RemoveSerialNumberByRMAId(int id);
+        public IEnumerable<Part> GetAllParts();
+        public Part GetPart(int id);
+        public void AddPart(Part part);
+        public void UpdatePart(Part part);
+        public void DeletePart(int id);
+        public void Commit();
     }
 }

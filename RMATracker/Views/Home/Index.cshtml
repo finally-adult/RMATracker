@@ -1,4 +1,6 @@
-﻿@{
+﻿@model ActiveViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -9,7 +11,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm text-center m-2">
-            <button type="button" class="btn btn-secondary btn-large p-5 rounded-lg shadow-lg btn-block"><h1>Create RMA</h1></button>
+            <button type="button" class="btn btn-secondary btn-large p-5 rounded-lg shadow-lg btn-block" data-toggle="modal" data-target="#addRMAModal"><h1>Create RMA</h1></button>
         </div>
         <div class="col-sm text-center m-2">
             <button type="button" class="btn btn-secondary btn-large p-5 rounded-lg shadow-lg btn-block"><h1>Update RMA</h1></button>
@@ -24,3 +26,5 @@
         </div>
     </div>
 </div>
+
+<partial name="_AddRMAPartial" />

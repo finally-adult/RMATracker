@@ -1,4 +1,4 @@
-﻿@model InventoryViewModel
+﻿@model IEnumerable<Part>
 
 @{
     ViewData["Title"] = "Inventory";
@@ -11,17 +11,28 @@
 <table id="inventoryTable" class="table">
     <thead>
         <tr>
-            <th></th>
             <th>Part Number</th>
             <th>Part Description</th>
-            <th>Quantity</th>
-            <th>Out for repair</th>
-            <th></th>
+            <th>On Hand</th>
+            <th>Out For Repair</th>
         </tr>
     </thead>
+    <tbody>
+        @foreach(var part in Model)
+        {
+            <tr>
+                <td>@part.PartNumber</td>
+                <td>@part.Description</td>
+                <td>@part.QuantityOnHand</td>
+                <td>@part.QuantityOutForRepair</td>
+            </tr>
+        }
+    </tbody>
 </table>
 
-<div class="modal fade" id="addPartModal" tabindex="-1" role="dialog" aria-labelledby="addPartModal" aria-hidden="true">
+<partial name="~/Views/Shared/_AddPartPartial.cshtml" />
+
+@*<div class="modal fade" id="addPartModal" tabindex="-1" role="dialog" aria-labelledby="addPartModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -50,147 +61,64 @@
             </div>
         </div>
     </div>
-</div>
-
-<!--
-<div class="modal fade" id="addSerialNumberModal" tabindex="-1" role="dialog" aria-labelledby="addSerialNumberModal" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="addSerialNumberModalLongTitle">Add Serial Number</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form asp-action="AddSerialNumber">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="SerialNumber.PartId" class="control-label"></label>
-                        <select id="partSelect" asp-for="SerialNumber.PartId" class="form-control" asp-items="ViewBag.PartId"></select>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="SerialNumber.Serial" class="control-label"></label>
-                        <input asp-for="SerialNumber.Serial" class="form-control" />
-                        <span asp-validation-for="SerialNumber.Serial" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-    -->
+</div>*@
 
 @section Scripts{
     <script>
-        var partId = 0;
 
-        function format(d) {
-            var body = "";
-            $.each(d.serialNumbers, function (index, value) {
-                if (value.outForRepair) {
-                    var rmaNumber = getRMA(value.rmaId);
-                } else {
-                    var rmaNumber = '';
-                }
-                body += '<tr><td>' +
-                    value.serial +
-                    '</td><td>' +
-                    rmaNumber +
-                    '</td></tr>';
-            });
-            return '<table class="table" id="invTableChild" name="invTableChild">' +
-                '<thead>' +
-                '<tr>' +
-                '<th>Serial Number</th>' +
-                '<th>RMA</th>' +
-                '</tr>' +
-                '</thead>' +
-                '<tbody>' +
-                body +
-                '</tbody>' +
-                '</table>';
-        }
-
-        function setVal(value) {
-            partId = value;
-        }
-
-        function getRMA(id) {
-            var rma = '';
-            if (id !== null) {
-                $.ajax({
-                    type: "GET",
-                    url: "/api/rmas/getrma/" + id,
-                    async: false,
-                    success: function (response) {
-                        rma = response.rmaNumber;
-                    },
-                });
-            }
-            return rma;
-        }
+        //function getRMA(id) {
+        //    var rma = '';
+        //    if (id !== null) {
+        //        $.ajax({
+        //            type: "GET",
+        //            url: "/api/rmas/getrma/" + id,
+        //            async: false,
+        //            success: function (response) {
+        //                rma = response.rmaNumber;
+        //            },
+        //        });
+        //    }
+        //    return rma;
+        //}
 
         $(document).ready(function () {
-            var table = $('#inventoryTable').DataTable({
-                ajax: {
-                    type: "GET",
-                    url: "/api/rmas/getallparts",
-                    dataSrc: "",
-                    contentType: "application/json",
-                    dataType: "json"
-                },
-                columns: [
-                    {
-                        className: 'details-control',
-                        orderable: false,
-                        data: null,
-                        defaultContent: ''
-                    },
-                    { data: "partNumber" },
-                    { data: "description" },
-                    { data: "serialNumbers.length" },
-                    { data: null },
-                    { data: null, orderable: false }
-                ],
-                columnDefs: [
-                    {
-                        targets: -1,
-                        createdCell: function (td, cellData, rowData, row, col) {
-                            $(td).html('<button class="btn btn-primary" data-toggle="modal" data-target="\#addSerialNumberModal" onclick="javascript:setVal(' + rowData.id + ')">Add Serial Number<\/button>');
-                        }
-                    },
-                    {
-                        targets: 4,
-                        createdCell: function (td, cellData, rowData, row, col) {
-                            $(td).html(rowData.serialNumbers.filter(s => s.outForRepair == true).length);
-                        }
-                    }
-                ],
-            });
-
-            $('#inventoryTable tbody').on('click', 'td.details-control', function () {
-                var tr = $(this).closest('tr');
-                var row = table.row(tr);
-
-                if (row.child.isShown()) {
-                    // This row is already open - close it
-                    row.child.hide();
-                    tr.removeClass('shown');
-                }
-                else {
-                    // Open this row
-                    row.child(format(row.data())).show();
-                    tr.addClass('shown');
-                }
-            });
-
-            $('#addSerialNumberModal').on('shown.bs.modal', function () {
-                $('#partSelect').val(partId);
-            });
+            var table = $("#inventoryTable").DataTable();
+            //var table = $('#inventoryTable').DataTable({
+            //    ajax: {
+            //        type: "GET",
+            //        url: "/api/rmas/getallparts",
+            //        dataSrc: "",
+            //        contentType: "application/json",
+            //        dataType: "json"
+            //    },
+            //    columns: [
+            //        {
+            //            className: 'details-control',
+            //            orderable: false,
+            //            data: null,
+            //            defaultContent: ''
+            //        },
+            //        { data: "partNumber" },
+            //        { data: "description" },
+            //        { data: "serialNumbers.length" },
+            //        { data: null },
+            //        { data: null, orderable: false }
+            //    ],
+            //    columnDefs: [
+            //        {
+            //            targets: -1,
+            //            createdCell: function (td, cellData, rowData, row, col) {
+            //                $(td).html('<button class="btn btn-primary" data-toggle="modal" data-target="\#addSerialNumberModal" onclick="javascript:setVal(' + rowData.id + ')">Add Serial Number<\/button>');
+            //            }
+            //        },
+            //        {
+            //            targets: 4,
+            //            createdCell: function (td, cellData, rowData, row, col) {
+            //                $(td).html(rowData.serialNumbers.filter(s => s.outForRepair == true).length);
+            //            }
+            //        }
+            //    ],
+            //});
         });
     </script>
 }

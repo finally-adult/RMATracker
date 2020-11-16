@@ -16,9 +16,15 @@ namespace RMATracker.Repositories
             this.db = db;
         }
 
-        public void Commit()
+        public IEnumerable<RMA> GetAllRMAs()
         {
-            db.SaveChanges();
+            var rmas = db.RMAs.Include(r => r.Part).ToList();
+            return rmas;
+        }
+
+        public RMA GetRMA(int id)
+        {
+            return db.RMAs.FirstOrDefault(rma => rma.Id == id);
         }
 
         public void AddRMA(RMA rma)
@@ -26,48 +32,6 @@ namespace RMATracker.Repositories
             rma.DateSent = DateTime.Now;
             db.Add(rma);
         }
-
-        public void AddPart(Part part)
-        {
-            db.Add(part);
-        }
-
-        public IEnumerable<Part> GetAllParts()
-        {
-            return db.Parts.ToList();
-        }
-
-        public IEnumerable<RMA> GetAllRMAs()
-        {
-            var rmas = db.RMAs.Include(r => r.Part).ToList();
-            return rmas;
-        }
-
-        //public IEnumerable<SerialNumber> GetAllSerialNumbers()
-        //{
-        //    return db.SerialNumbers.ToList();
-        //}
-
-        //public void AddSerialNumber(SerialNumber serialNumber)
-        //{
-        //    db.Add(serialNumber);
-        //}
-
-        public RMA GetRMA(int id)
-        {
-            return db.RMAs.FirstOrDefault(rma => rma.Id == id);
-        }
-
-        //public void UpdateSerialNumber(SerialNumber serialNumber)
-        //{
-        //    var entity = db.SerialNumbers.Attach(serialNumber);
-        //    entity.State = EntityState.Modified;
-        //}
-
-        //public SerialNumber GetSerialNumberById(int id)
-        //{
-        //    return db.SerialNumbers.Find(id);
-        //}
 
         public void UpdateRMA(RMA rma)
         {
@@ -84,11 +48,39 @@ namespace RMATracker.Repositories
             }
         }
 
-        //public void RemoveSerialNumberByRMAId(int id)
-        //{
-        //    var serialNumber = db.SerialNumbers.Single(s => s.RMAId == id);
-        //    serialNumber.RMAId = null;
-        //    serialNumber.OutForRepair = false;
-        //}
+        public IEnumerable<Part> GetAllParts()
+        {
+            return db.Parts.ToList();
+        }
+
+        public Part GetPart(int id)
+        {
+            return db.Parts.FirstOrDefault(part => part.Id == id);
+        }
+
+        public void AddPart(Part part)
+        {
+            db.Add(part);
+        }
+
+        public void UpdatePart(Part part)
+        {
+            var entity = db.Parts.Attach(part);
+            entity.State = EntityState.Modified;
+        }
+
+        public void DeletePart(int id)
+        {
+            var part = db.Parts.Find(id);
+            if (part is Part)
+            {
+                db.Remove(part);
+            }
+        }
+
+        public void Commit()
+        {
+            db.SaveChanges();
+        }
     }
 }

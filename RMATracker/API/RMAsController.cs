@@ -31,10 +31,10 @@ namespace RMATracker.API
             return repository.GetRMA(id);
         }
 
-        //[HttpGet("{id}")]
-        //public IEnumerable<SerialNumber> GetSerialNumbers(int id)
-        //{
-        //    return repository.GetAllSerialNumbers().Where(s => s.PartId == id);
-        //}
+        [HttpGet("{id}")]
+        public Part GetPart(int id)
+        {
+            return repository.GetPart(id);
+        }
     }
 }
