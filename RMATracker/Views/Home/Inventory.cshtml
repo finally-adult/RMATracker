@@ -120,6 +120,31 @@
     </div>
 </div>
 
+<div class="modal fade" id="deletePartModal" tabindex="-1" role="dialog" aria-labelledby="deletePartModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deletePartModalLongTitle">Delete Part</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="DeletePart">
+                    <input asp-for="Part.Id" id="deletePartId" type="hidden" />
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="alert alert-danger" role="alert">
+                        Are you sure you want to delete Part: <span id="partIdText"></span>?
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Delete" class="btn btn-danger" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts{
     <script>
         var partId = 0;
@@ -132,7 +157,7 @@
             $("#inventoryTable").DataTable();
         });
 
-        $('#updatePartModal').on('shown.bs.modal', function () {
+        $("#updatePartModal").on("shown.bs.modal", function () {
             $.ajax({
                 type: "GET",
                 url: "/api/rmas/getpart/" + partId,
@@ -146,6 +171,19 @@
                     $("#updatePartQuantityOutForRepair").val(response.quantityOutForRepair);
                 }
             });
+        });
+
+        $("#deletePartModal").on("shown.bs.modal", function () {
+            $.ajax({
+                type: "GET",
+                url: "/api/rmas/getpart/" + partId,
+                contentType: "json",
+                success: function (response) {
+                    console.log(response);
+                    $("#deletePartId").val(response.id);
+                    $("#partIdText").append(response.partNumber);
+                }
+            })
         });
     </script>
 }

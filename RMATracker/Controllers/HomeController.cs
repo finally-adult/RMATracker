@@ -123,9 +123,9 @@ namespace RMATracker.Controllers
         }
 
         [HttpPost]
-        public IActionResult DeletePart(int id)
+        public IActionResult DeletePart(InventoryViewModel vm)
         {
-            repository.DeletePart(id);
+            repository.DeletePart(vm.Part.Id);
             repository.Commit();
             return RedirectToAction("Inventory");
         }
