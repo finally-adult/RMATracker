@@ -9,7 +9,7 @@ $(document).ready(function () {
     $("#RMAtable").DataTable();
 });
 
-$('#updateRMAModal').on('shown.bs.modal', function () {
+$('#updateRMAModal').on('show.bs.modal', function () {
     $.ajax({
         type: "GET",
         url: "/api/rmas/getrma/" + rmaId,
@@ -34,7 +34,7 @@ $('#updateRMAModal').on('shown.bs.modal', function () {
     });
 });
 
-$('#deleteRMAModal').on('shown.bs.modal', function () {
+$('#deleteRMAModal').on('show.bs.modal', function () {
     $.ajax({
         type: "GET",
         url: "/api/rmas/getrma/" + rmaId,
@@ -42,7 +42,7 @@ $('#deleteRMAModal').on('shown.bs.modal', function () {
         success: function (response) {
             console.log(response);
             $('#deleteRMAId').val(response.id);
-            $('#rmaIdText').append(response.rmaNumber);
+            $('#rmaDeleteText #rmaIdText').text(response.rmaNumber);
         }
     })
 })

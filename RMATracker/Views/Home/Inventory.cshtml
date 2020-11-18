@@ -133,7 +133,7 @@
                 <form asp-action="DeletePart">
                     <input asp-for="Part.Id" id="deletePartId" type="hidden" />
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="alert alert-danger" role="alert">
+                    <div id="partDeleteText" class="alert alert-danger" role="alert">
                         Are you sure you want to delete Part: <span id="partIdText"></span>?
                     </div>
                     <div class="form-group">
@@ -157,7 +157,7 @@
             $("#inventoryTable").DataTable();
         });
 
-        $("#updatePartModal").on("shown.bs.modal", function () {
+        $("#updatePartModal").on("show.bs.modal", function () {
             $.ajax({
                 type: "GET",
                 url: "/api/rmas/getpart/" + partId,
@@ -173,7 +173,7 @@
             });
         });
 
-        $("#deletePartModal").on("shown.bs.modal", function () {
+        $("#deletePartModal").on("show.bs.modal", function () {
             $.ajax({
                 type: "GET",
                 url: "/api/rmas/getpart/" + partId,
@@ -181,7 +181,7 @@
                 success: function (response) {
                     console.log(response);
                     $("#deletePartId").val(response.id);
-                    $("#partIdText").append(response.partNumber);
+                    $("#partDeleteText #partIdText").text(response.partNumber);
                 }
             })
         });
